@@ -1,6 +1,7 @@
 <script>
 	import { base } from '$app/paths';
 	import { fade, scale } from 'svelte/transition';
+	import { onMount } from 'svelte';
 
 	// State management using Svelte 5 runes
 	let activeTab = $state('home');
@@ -16,9 +17,119 @@
 	let calcCharacters = $state(1);
 	let calcStickerQty = $state(1);
 	let calcEmoteQty = $state(1);
+	let copied = $state(false);
+
+	// Doodle canvas state
+	let doodleCanvas = $state();
+	let isDrawing = false;
+	let lastX = 0;
+	let lastY = 0;
+	let brushColor = $state('#24D8E3'); // Default is Cyan
+	let brushSize = $state(4);
+
+	// Interactive mascot quotes
+	const mascotQuotes = [
+		"Hewoo! Welcome to my sketchbook! :3",
+		"Draw something cute on the doodle board! 🎨",
+		"Check out my commission rates! 🌊",
+		"Sine waves and good vibes only! ✨",
+		"PayPal taxes are mean, sorry about refunds! 😭",
+		"Please be nice and respectful! 💖",
+		"I draw emotes, stickers, and full-body sheets!",
+		"Click 'Art & Pricing' to choose your poison! 🧪",
+		"Let's make something amazing together!"
+	];
+	let mascotQuoteIndex = $state(0);
+	let showMascotBubble = $state(false);
+
+	function triggerMascotQuote() {
+		mascotQuoteIndex = Math.floor(Math.random() * mascotQuotes.length);
+		showMascotBubble = true;
+	}
+
+	function hideMascotBubble() {
+		showMascotBubble = false;
+	}
+
+	function startDrawing(e) {
+		if (!doodleCanvas) return;
+		isDrawing = true;
+		const rect = doodleCanvas.getBoundingClientRect();
+		const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+		const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+		lastX = clientX - rect.left;
+		lastY = clientY - rect.top;
+	}
+
+	function draw(e) {
+		if (!isDrawing || !doodleCanvas) return;
+		e.preventDefault();
+		const ctx = doodleCanvas.getContext('2d');
+		const rect = doodleCanvas.getBoundingClientRect();
+		const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+		const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+		const x = clientX - rect.left;
+		const y = clientY - rect.top;
+
+		ctx.beginPath();
+		ctx.moveTo(lastX, lastY);
+		ctx.lineTo(x, y);
+		ctx.strokeStyle = brushColor;
+		ctx.lineWidth = brushSize;
+		ctx.lineCap = 'round';
+		ctx.lineJoin = 'round';
+		ctx.stroke();
+
+		lastX = x;
+		lastY = y;
+	}
+
+	function stopDrawing() {
+		isDrawing = false;
+	}
+
+	function clearCanvas() {
+		if (!doodleCanvas) return;
+		const ctx = doodleCanvas.getContext('2d');
+		ctx.clearRect(0, 0, doodleCanvas.width, doodleCanvas.height);
+	}
+
+	function resizeCanvas() {
+		if (!doodleCanvas) return;
+		const ctx = doodleCanvas.getContext('2d');
+		// Save current content temporarily
+		const tempCanvas = document.createElement('canvas');
+		tempCanvas.width = doodleCanvas.width;
+		tempCanvas.height = doodleCanvas.height;
+		const tempCtx = tempCanvas.getContext('2d');
+		tempCtx.drawImage(doodleCanvas, 0, 0);
+
+		const rect = doodleCanvas.parentElement.getBoundingClientRect();
+		doodleCanvas.width = rect.width;
+		doodleCanvas.height = 240; // Maintain fixed height matching layout
+
+		// Restore content after resize
+		ctx.drawImage(tempCanvas, 0, 0);
+	}
+
+	function downloadDoodle() {
+		if (!doodleCanvas) return;
+		const link = document.createElement('a');
+		link.download = 'ren-patterns-doodle.png';
+		link.href = doodleCanvas.toDataURL('image/png');
+		link.click();
+	}
+
+	onMount(() => {
+		resizeCanvas();
+		window.addEventListener('resize', resizeCanvas);
+		return () => {
+			window.removeEventListener('resize', resizeCanvas);
+		};
+	});
 
 	const artistInfo = {
-		name: 'RennieFabric',
+		name: 'Ren Patterns',
 		tagline: 'Sine waves 🌊 | Crafting unique patterns & vibes 🎨✨',
 		discordTag: 'RennieFabric (ID: 623393220633559050)',
 		socials: [
@@ -96,17 +207,17 @@
 
 	// All gallery images compiled for easy lightbox navigation
 	const allGalleryImages = [
-		{ src: `${base}/assets/gallery01_38b512b6.png`, title: 'Gallery Illustration 1' },
-		{ src: `${base}/assets/gallery01_cf19dd77.png`, title: 'Gallery Illustration 2' },
-		{ src: `${base}/assets/gallery01_e797ed15.png`, title: 'Gallery Illustration 3' },
-		{ src: `${base}/assets/gallery02_4bfa3f0b.png`, title: 'Icon Example 1' },
-		{ src: `${base}/assets/gallery02_b1aa6620.png`, title: 'Icon Example 2' },
-		{ src: `${base}/assets/gallery02_8c008a2c.png`, title: 'Icon Example 3' },
-		{ src: `${base}/assets/image03.png`, title: 'Emotes Grid' },
-		{ src: `${base}/assets/image04.jpg`, title: 'Half Body Design' },
-		{ src: `${base}/assets/image06.jpg`, title: 'Half Body Showcase' },
-		{ src: `${base}/assets/image05.png`, title: 'Full Body Art' },
-		{ src: `${base}/assets/image07.jpg`, title: 'Character Sheet' }
+		{ src: `${base}/assets/gallery01_38b512b6.png`, title: 'Chibi Mascot Outline' },
+		{ src: `${base}/assets/gallery01_cf19dd77.png`, title: 'Mascot Line-art 1' },
+		{ src: `${base}/assets/gallery01_e797ed15.png`, title: 'Mascot Line-art 2' },
+		{ src: `${base}/assets/gallery02_4bfa3f0b.png`, title: 'Chibi Blue Furry Icon' },
+		{ src: `${base}/assets/gallery02_b1aa6620.png`, title: 'Smile Icon Showcase' },
+		{ src: `${base}/assets/gallery02_8c008a2c.png`, title: 'Character Icon Portrait' },
+		{ src: `${base}/assets/image03.png`, title: 'Sticker Emotes Grid' },
+		{ src: `${base}/assets/image04.jpg`, title: 'Half Body Portrait' },
+		{ src: `${base}/assets/image06.jpg`, title: 'Lying Down Character' },
+		{ src: `${base}/assets/image05.png`, title: '"Take A Hike" Forest Hike Illustration' },
+		{ src: `${base}/assets/image07.jpg`, title: 'Ref Sheet Commission Showcase' }
 	];
 
 	// Price calculator logic
@@ -137,6 +248,34 @@
 		return singleCharacterPrice + extraCharactersPrice + backgroundPrice;
 	});
 
+	function copyOrderDetails() {
+		let summaryText = '';
+		if (calcCategory === 'illustration') {
+			summaryText = `Commission Order Details (Illustration):\n` +
+				`- Type/Scale: ${calcType.replace('-', ' ')}\n` +
+				`- Complexity: ${calcComplexity}\n` +
+				`- Background: ${calcBackground}\n` +
+				`- Characters: ${calcCharacters}\n` +
+				`- Estimated Total: $${calculatedPrice}\n\n` +
+				`Contact: @Renniefabric`;
+		} else if (calcCategory === 'stickers') {
+			summaryText = `Commission Order Details (Stickers):\n` +
+				`- Quantity: ${calcStickerQty}\n` +
+				`- Estimated Total: $${calculatedPrice}\n\n` +
+				`Contact: @Renniefabric`;
+		} else if (calcCategory === 'emotes') {
+			summaryText = `Commission Order Details (Emotes):\n` +
+				`- Quantity: ${calcEmoteQty}\n` +
+				`- Estimated Total: $${calculatedPrice}\n\n` +
+				`Contact: @Renniefabric`;
+		}
+
+		navigator.clipboard.writeText(summaryText).then(() => {
+			copied = true;
+			setTimeout(() => { copied = false; }, 2000);
+		});
+	}
+
 	function openLightbox(imageSrc) {
 		const index = allGalleryImages.findIndex(img => img.src === imageSrc);
 		if (index !== -1) {
@@ -164,62 +303,85 @@
 
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full my-4">
 	<!-- Left Side: Profile Dashboard (Persistent Navigation) -->
-	<div class="lg:col-span-4 glass-panel rounded-3xl p-6 flex flex-col items-center text-center floating">
-		<!-- Wide Banner / Banner Frame -->
-		<div class="w-full h-36 rounded-2xl overflow-hidden mb-4 relative group">
-			<img 
-				src="{base}/assets/image01.png" 
-				alt="RennieFabric Banner" 
-				class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-			/>
-			<div class="absolute inset-0 bg-gradient-to-t from-[#08060f] to-transparent opacity-40"></div>
+	<div class="lg:col-span-4 comic-panel p-6 flex flex-col items-center text-center tilt-l relative">
+		<!-- Paintbrush Signature Mascot Badge -->
+		<div class="flex items-center gap-4 mb-6 justify-center w-full bg-black/20 p-3 rounded-2xl border border-white/5 relative">
+			<!-- Mascot Custom Avatar with double ring border -->
+			<div 
+				class="relative group shrink-0"
+				onmouseenter={triggerMascotQuote}
+				onmouseleave={hideMascotBubble}
+				role="button"
+				tabindex="0"
+				onkeydown={(e) => { if (e.key === 'Enter' || e.key === ' ') triggerMascotQuote(); }}
+			>
+				<div class="w-18 h-18 rounded-full border-3 border-black overflow-hidden bg-white flex items-center justify-center shadow-[3px_3px_0_#000] transition-all group-hover:scale-105 animate-wiggle cursor-pointer">
+					<img src="{base}/assets/gallery02_4bfa3f0b.png" alt="Ren Mascot" class="w-16 h-16 object-contain" />
+				</div>
+				<!-- Status Dot -->
+				<div class="absolute bottom-0 right-0 w-5 h-5 bg-[#7EEDB8] border-3 border-black rounded-full shadow-[1px_1px_0_#000]" title="Open for Comms!"></div>
+
+				<!-- Mascot quote bubble -->
+				{#if showMascotBubble}
+					<div 
+						transition:scale={{ duration: 150, start: 0.95 }}
+						class="absolute bottom-22 left-1/2 -translate-x-1/2 z-30 speech-bubble bubble-b px-3.5 py-2.5 text-xs font-bold text-cyan-300 w-44 shadow-[4px_4px_0_#000] text-center"
+					>
+						{mascotQuotes[mascotQuoteIndex]}
+					</div>
+				{/if}
+			</div>
+			
+			<div class="text-left flex-grow">
+				<!-- Custom drawn logo -->
+				<img src="{base}/assets/image01.png" alt="Ren Comms Logo" class="h-10 object-contain filter drop-shadow-[1.5px_1.5px_0_#000]" />
+				<span class="text-[9px] font-bold font-sans tracking-widest text-[#24D8E3] bg-[#24D8E3]/15 border border-[#24D8E3]/30 px-2.5 py-0.5 rounded-full inline-block mt-1">
+					PATTERNS & VIBES 🌊
+				</span>
+			</div>
 		</div>
 
-		<!-- Profile Info -->
-		<h1 class="text-3xl font-bold font-hachi text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 tracking-wider">
-			{artistInfo.name}
-		</h1>
-		<p class="text-sm text-gray-400 font-medium tracking-wide mt-1">{artistInfo.tagline}</p>
-		
-		<!-- Custom divider -->
-		<div class="w-16 h-1 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full my-4"></div>
+		<!-- Tagline as Speech Bubble -->
+		<div class="speech-bubble bubble-t p-4 mb-6 text-sm text-gray-200 font-gochi italic text-left w-full">
+			{artistInfo.tagline}
+		</div>
 
-		<!-- Tabs Menu -->
-		<nav class="flex flex-col gap-2.5 w-full">
+		<!-- Tabs Menu (Comic Style Buttons) -->
+		<nav class="flex flex-col gap-3.5 w-full border-t border-white/5 pt-5">
 			<button 
 				onclick={() => activeTab = 'home'}
-				class="art-button w-full py-3 px-4 rounded-xl text-lg font-semibold tracking-wider transition-all duration-200 {activeTab === 'home' ? 'bg-[#24D8E3] text-gray-950 shadow-lg shadow-cyan-400/20' : 'bg-white/5 hover:bg-white/10 text-white'}"
+				class="comic-btn w-full py-3.5 px-4 rounded-xl text-lg tracking-wider transition-all duration-100 {activeTab === 'home' ? 'comic-btn-blue' : 'comic-btn-dark'}"
 			>
 				🏠 Home Hub
 			</button>
 			<button 
 				onclick={() => activeTab = 'gallery'}
-				class="art-button w-full py-3 px-4 rounded-xl text-lg font-semibold tracking-wider transition-all duration-200 {activeTab === 'gallery' ? 'bg-[#BC8DF7] text-gray-950 shadow-lg shadow-purple-400/20' : 'bg-white/5 hover:bg-white/10 text-white'}"
+				class="comic-btn w-full py-3.5 px-4 rounded-xl text-lg tracking-wider transition-all duration-100 {activeTab === 'gallery' ? 'comic-btn-purple' : 'comic-btn-dark'}"
 			>
 				🎨 Art & Pricing
 			</button>
 			<button 
 				onclick={() => activeTab = 'calculator'}
-				class="art-button w-full py-3 px-4 rounded-xl text-lg font-semibold tracking-wider transition-all duration-200 {activeTab === 'calculator' ? 'bg-[#E87848] text-gray-950 shadow-lg shadow-orange-400/20' : 'bg-white/5 hover:bg-white/10 text-white'}"
+				class="comic-btn w-full py-3.5 px-4 rounded-xl text-lg tracking-wider transition-all duration-100 {activeTab === 'calculator' ? 'comic-btn-orange' : 'comic-btn-dark'}"
 			>
-				🧮 Price Calculator
+				🧮 Cost Calculator
 			</button>
 			<button 
 				onclick={() => activeTab = 'terms'}
-				class="art-button w-full py-3 px-4 rounded-xl text-lg font-semibold tracking-wider transition-all duration-200 {activeTab === 'terms' ? 'bg-[#E34049] text-gray-950 shadow-lg shadow-red-400/20' : 'bg-white/5 hover:bg-white/10 text-white'}"
+				class="comic-btn w-full py-3.5 px-4 rounded-xl text-lg tracking-wider transition-all duration-100 {activeTab === 'terms' ? 'comic-btn-red' : 'comic-btn-dark'}"
 			>
 				📜 Terms & Rules
 			</button>
 		</nav>
 
 		<!-- Social Media Badges -->
-		<div class="flex flex-wrap gap-2.5 justify-center mt-6 w-full border-t border-white/5 pt-5">
+		<div class="flex flex-wrap gap-2 justify-center mt-6 w-full border-t border-white/5 pt-5">
 			{#each artistInfo.socials as social}
 				<a 
 					href={social.url} 
 					target="_blank" 
 					rel="noreferrer"
-					class="p-2.5 rounded-lg bg-white/5 hover:bg-white/15 text-gray-300 transition-colors border border-white/5 hover:border-white/10 flex items-center justify-center"
+					class="p-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-gray-300 transition-all border border-white/5 hover:border-black hover:border-2 hover:bg-[#BC8DF7] hover:text-black flex items-center justify-center filter hover:drop-shadow-[2px_2px_0_#000]"
 					title={social.name}
 				>
 					{#if social.name.includes('Twitter')}
@@ -248,150 +410,224 @@
 	<div class="lg:col-span-8 w-full">
 		{#if activeTab === 'home'}
 			<!-- HOME TAB -->
-			<div class="tab-content glass-panel rounded-3xl p-8 flex flex-col gap-6">
-				<div class="flex flex-col gap-2">
-					<h2 class="text-4xl font-extrabold font-gochi text-[#24D8E3] tracking-wide brush-underline">
-						Welcome to My Sketchbook!
-					</h2>
-					<p class="text-gray-300 text-lg leading-relaxed mt-3">
-						Hey there! I'm an artist who loves bringing original characters, custom designs, and emote packs to life. 
-						This site is my creative portfolio and pricing builder. Feel free to explore my gallery categories, 
-						calculate commission costs using my custom builder, and review my terms before ordering.
-					</p>
-				</div>
+			<div class="tab-content flex flex-col gap-6" in:fade>
+				<!-- Profile Card -->
+				<div class="comic-panel p-8 flex flex-col gap-6 tilt-r relative overflow-hidden">
+					<!-- Floating Decorative outline silhouettes in the corners! -->
+					<img src="{base}/assets/gallery01_38b512b6.png" alt="Silhouette Left" class="absolute -bottom-6 -left-4 w-20 h-24 pointer-events-none floating-silhouette rotate-12" />
+					<img src="{base}/assets/gallery01_e797ed15.png" alt="Silhouette Right" class="absolute -top-6 -right-4 w-20 h-24 pointer-events-none floating-silhouette -rotate-12" />
 
-				<!-- Webtoon Project Showcase -->
-				<div class="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-[#24D8E3]/20 rounded-2xl p-5 flex flex-col sm:flex-row items-center gap-4 justify-between mt-2">
-					<div class="text-left">
-						<span class="text-xs font-bold text-cyan-400 uppercase tracking-widest">My Webtoon Comic</span>
-						<h3 class="font-bold text-white text-xl mt-0.5">📖 Read "Call Back" on Webtoon!</h3>
-						<p class="text-sm text-gray-400 mt-1">Follow my official webcomic updates and story patterns directly on Webtoon Canvas.</p>
+					<div class="flex flex-col gap-2 relative z-10 text-left">
+						<h2 class="text-4xl font-extrabold font-hachi text-[#24D8E3] tracking-wide brush-underline">
+							Welcome to My Sketchbook!
+						</h2>
+						<p class="text-gray-200 text-lg leading-relaxed mt-4">
+							Hey there! I'm an artist who loves bringing original characters, custom designs, and emote packs to life. 
+							This site is my creative portfolio and pricing builder. Feel free to explore my gallery categories, 
+							calculate commission costs using my custom builder, and review my terms before ordering.
+						</p>
 					</div>
-					<a 
-						href="https://www.webtoons.com/en/canvas/call-back/list?title_no=921001" 
-						target="_blank" 
-						rel="noreferrer"
-						class="art-button bg-[#24D8E3] hover:bg-[#1dbec7] text-gray-950 px-6 py-2.5 rounded-xl font-bold tracking-wider shrink-0"
-					>
-						Read Comic
-					</a>
+
+					<!-- Webtoon Project Showcase -->
+					<div class="bg-gradient-to-r from-cyan-500/15 to-blue-500/15 border-2 border-black rounded-2xl p-5 flex flex-col sm:flex-row items-center gap-4 justify-between mt-2 shadow-[3px_3px_0_#000] relative z-10">
+						<div class="text-left">
+							<span class="text-[10px] font-bold text-cyan-400 uppercase tracking-widest bg-cyan-950/50 border border-cyan-800/30 px-2.5 py-0.5 rounded-full inline-block">My Webtoon Comic</span>
+							<h3 class="font-bold text-white text-xl mt-2">📖 Read "Call Back" on Webtoon!</h3>
+							<p class="text-sm text-gray-400 mt-1">Follow my official webcomic updates and story patterns directly on Webtoon Canvas.</p>
+						</div>
+						<a 
+							href="https://www.webtoons.com/en/canvas/call-back/list?title_no=921001" 
+							target="_blank" 
+							rel="noreferrer"
+							class="comic-btn comic-btn-blue px-6 py-2.5 rounded-xl font-bold tracking-wider shrink-0"
+						>
+							Read Comic
+						</a>
+					</div>
 				</div>
 
-				<!-- Visual Highlights Grid -->
-				<div class="grid grid-cols-3 gap-3 my-2">
-					{#each allGalleryImages.slice(0, 3) as highlight}
-						<div 
-							onclick={() => openLightbox(highlight.src)}
-							onkeydown={(e) => { if (e.key === 'Enter' || e.key === ' ') openLightbox(highlight.src); }}
-							role="button"
-							tabindex="0"
-							class="aspect-square rounded-2xl overflow-hidden cursor-zoom-in relative group border border-white/5"
-						>
-							<img 
-								src={highlight.src} 
-								alt={highlight.title} 
-								class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-							/>
-							<div class="absolute inset-0 bg-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-								<span class="text-white font-semibold text-sm drop-shadow bg-black/40 px-3 py-1 rounded-full">Zoom 🔍</span>
+				<!-- Visual Highlights Grid with Washi Tape -->
+				<div class="grid grid-cols-3 gap-4 my-2">
+					{#each allGalleryImages.slice(3, 6) as highlight, idx}
+						<div class="washi-tape-container">
+							<div class="washi-tape {idx === 0 ? 'washi-tape-pink' : idx === 1 ? 'washi-tape-cyan' : 'washi-tape-purple'}"></div>
+							<div 
+								onclick={() => openLightbox(highlight.src)}
+								onkeydown={(e) => { if (e.key === 'Enter' || e.key === ' ') openLightbox(highlight.src); }}
+								role="button"
+								tabindex="0"
+								class="aspect-square rounded-2xl overflow-hidden cursor-zoom-in relative group border-3 border-black shadow-[4px_4px_0_#000] hover:translate-y-[-2px] transition-all"
+							>
+								<img 
+									src={highlight.src} 
+									alt={highlight.title} 
+									class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+								/>
+								<div class="absolute inset-0 bg-[#BC8DF7]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+									<span class="text-black font-extrabold text-sm drop-shadow bg-[#24D8E3] border-2 border-black px-3 py-1 rounded-full shadow-[2px_2px_0_#000]">Zoom 🔍</span>
+								</div>
 							</div>
 						</div>
 					{/each}
 				</div>
 
-				<!-- Quick Commission Alert / Discord Card -->
-				<div class="bg-gradient-to-r from-purple-500/10 to-indigo-500/10 border border-[#BC8DF7]/20 rounded-2xl p-5 flex flex-col md:flex-row items-center gap-4 justify-between">
-					<div class="flex items-center gap-4">
-						<div class="p-3 bg-purple-500/20 text-[#BC8DF7] rounded-xl">
-							<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.094 13.094 0 01-1.873-.894.077.077 0 01-.008-.128c.126-.093.252-.19.372-.287a.075.075 0 01.077-.011c3.92 1.793 8.18 1.793 12.061 0a.073.073 0 01.078.009c.12.099.246.195.373.289a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.894.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.156-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.156 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.156-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.156 2.418z"/></svg>
+				<!-- Interactive Doodle Board Card -->
+				<div class="comic-panel p-6 tilt-l">
+					<div class="flex flex-col gap-2 border-b border-black/10 pb-4 mb-4 text-left">
+						<h3 class="text-2xl font-bold font-gochi text-[#BC8DF7]">🎨 Interactive Doodle Board</h3>
+						<p class="text-sm text-gray-400">Doodle something creative directly on my page! Pick a brush color and draw below.</p>
+					</div>
+
+					<div class="flex flex-col md:flex-row gap-4 items-stretch">
+						<!-- Board Tools -->
+						<div class="flex md:flex-col justify-between md:justify-start gap-4 w-full md:w-36 shrink-0 bg-black/25 p-3.5 rounded-2xl border border-white/5">
+							<!-- Colors -->
+							<div class="flex flex-col gap-1.5 w-full text-left">
+								<span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">Color</span>
+								<div class="grid grid-cols-4 md:grid-cols-2 gap-2">
+									{#each ['#24D8E3', '#E87848', '#BC8DF7', '#E34049', '#7EEDB8', '#F3E15F', '#FFFFFF', '#000000'] as color}
+										<button 
+											onclick={() => brushColor = color}
+											class="w-7 h-7 rounded-lg border-2 transition-all {brushColor === color ? 'border-white scale-110 shadow-md' : 'border-black hover:scale-105'}"
+											style="background-color: {color}"
+											title="Brush Color: {color}"
+										></button>
+									{/each}
+								</div>
+							</div>
+
+							<!-- Sizes -->
+							<div class="flex flex-col gap-1.5 w-full text-left mt-2">
+								<span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">Brush Size</span>
+								<div class="flex items-center gap-2">
+									<input 
+										type="range" 
+										min="2" 
+										max="16" 
+										bind:value={brushSize}
+										class="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#BC8DF7]"
+									/>
+									<span class="text-xs font-bold text-gray-300 w-4">{brushSize}</span>
+								</div>
+							</div>
+
+							<!-- Actions -->
+							<div class="flex flex-row md:flex-col gap-2 mt-auto w-full">
+								<button 
+									onclick={clearCanvas}
+									class="comic-btn comic-btn-red py-2 px-3 rounded-xl text-xs font-bold w-full"
+								>
+									Clear 🧹
+								</button>
+								<button 
+									onclick={downloadDoodle}
+									class="comic-btn comic-btn-blue py-2 px-3 rounded-xl text-xs font-bold w-full"
+								>
+									Save 💾
+								</button>
+							</div>
 						</div>
-						<div class="text-left">
-							<h3 class="font-bold text-white text-lg">Interested in ordering?</h3>
-							<p class="text-sm text-gray-400">Reach out to me directly on Discord: <span class="text-purple-300 font-semibold">{artistInfo.discordTag}</span></p>
+
+						<!-- Canvas element -->
+						<div class="flex-grow min-h-[240px] doodle-container rounded-2xl relative overflow-hidden flex">
+							<canvas 
+								bind:this={doodleCanvas}
+								onmousedown={startDrawing}
+								onmousemove={draw}
+								onmouseup={stopDrawing}
+								onmouseleave={stopDrawing}
+								ontouchstart={startDrawing}
+								ontouchmove={draw}
+								ontouchend={stopDrawing}
+								class="w-full h-full block touch-none"
+							></canvas>
 						</div>
 					</div>
-					<a 
-						href="https://discord.com/users/623393220633559050" 
-						target="_blank" 
-						rel="noreferrer"
-						class="art-button bg-[#BC8DF7] hover:bg-[#a672e5] text-gray-950 px-6 py-2.5 rounded-xl font-bold tracking-wider"
-					>
-						Contact Me
-					</a>
 				</div>
 			</div>
 		{:else if activeTab === 'gallery'}
 			<!-- GALLERY & PRICING TAB -->
-			<div class="tab-content flex flex-col gap-8">
-				{#each artistInfo.pricingCategories as category}
-					<div class="glass-panel rounded-3xl p-6 md:p-8 flex flex-col gap-5">
-						<!-- Header -->
-						<div class="flex justify-between items-baseline border-b border-white/5 pb-3">
-							<h3 class="text-2xl font-bold font-hachi text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-[#BC8DF7]">
-								{category.name}
-							</h3>
-							<span class="text-xl font-bold font-gochi text-cyan-300 bg-cyan-950/40 border border-cyan-800/30 px-3 py-1 rounded-full">
-								{category.priceText}
-							</span>
-						</div>
-						
-						<!-- Description -->
-						<p class="text-gray-300 leading-relaxed text-base">{category.description}</p>
-						
-						<!-- Examples -->
-						<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
-							{#each category.examples as image}
-								<div 
-									onclick={() => openLightbox(image.src)}
-									onkeydown={(e) => { if (e.key === 'Enter' || e.key === ' ') openLightbox(image.src); }}
-									role="button"
-									tabindex="0"
-									class="aspect-square rounded-2xl overflow-hidden cursor-zoom-in relative group border border-white/5 bg-gray-900/50"
-								>
-									<img 
-										src={image.src} 
-										alt={image.title} 
-										class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-									/>
-									<div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-										<span class="text-white text-xs bg-purple-950/80 border border-purple-500/20 px-2.5 py-1 rounded-full font-medium">View Art 🔍</span>
+			<div class="tab-content flex flex-col gap-8" in:fade>
+				<!-- Gallery Custom Drawn Header Logo -->
+				<div class="flex justify-center mb-4">
+					<img src="{base}/assets/gallery01_cf19dd77.png" alt="Choose Your Poison" class="h-16 object-contain filter drop-shadow-[2.5px_2.5px_0_#000] rotate-[-1deg]" />
+				</div>
+
+				{#each artistInfo.pricingCategories as category, idx}
+					<div class="washi-tape-container">
+						<div class="washi-tape {idx === 0 ? 'washi-tape-pink' : idx === 1 ? 'washi-tape-cyan' : 'washi-tape-purple'}"></div>
+						<div class="comic-panel p-6 md:p-8 flex flex-col gap-5 {idx % 2 === 0 ? 'tilt-r' : 'tilt-l'}">
+							<!-- Header -->
+							<div class="flex justify-between items-baseline border-b-2 border-black/10 pb-3 text-left">
+								<h3 class="text-2xl font-bold font-hachi text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-[#BC8DF7]">
+									{category.name}
+								</h3>
+								<span class="text-xl font-bold font-gochi text-cyan-300 bg-cyan-950/40 border border-cyan-800/30 px-3 py-1 rounded-full">
+									{category.priceText}
+								</span>
+							</div>
+							
+							<!-- Description -->
+							<p class="text-gray-300 leading-relaxed text-base text-left">{category.description}</p>
+							
+							<!-- Examples with Washi Tape -->
+							<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
+								{#each category.examples as image, imgIdx}
+									<div class="washi-tape-container">
+										<div class="washi-tape {imgIdx % 3 === 0 ? 'washi-tape-pink' : imgIdx % 3 === 1 ? 'washi-tape-cyan' : 'washi-tape-purple'}"></div>
+										<div 
+											onclick={() => openLightbox(image.src)}
+											onkeydown={(e) => { if (e.key === 'Enter' || e.key === ' ') openLightbox(image.src); }}
+											role="button"
+											tabindex="0"
+											class="aspect-square rounded-2xl overflow-hidden cursor-zoom-in relative group border-3 border-black shadow-[4px_4px_0_#000] hover:translate-y-[-2px] transition-all bg-gray-900/50"
+										>
+											<img 
+												src={image.src} 
+												alt={image.title} 
+												class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+											/>
+											<div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+												<span class="text-black text-xs bg-[#BC8DF7] border-2 border-black px-2.5 py-1 rounded-full font-bold shadow-[2px_2px_0_#000]">View Art 🔍</span>
+											</div>
+										</div>
 									</div>
-								</div>
-							{/each}
+								{/each}
+							</div>
 						</div>
 					</div>
 				{/each}
 			</div>
 		{:else if activeTab === 'calculator'}
 			<!-- CALCULATOR TAB -->
-			<div class="tab-content glass-panel rounded-3xl p-8 flex flex-col gap-6">
-				<div class="flex flex-col gap-1 border-b border-white/5 pb-4">
-					<h2 class="text-3xl font-bold font-gochi text-[#E87848] brush-underline">Commission Price Calculator</h2>
+			<div class="tab-content comic-panel p-8 flex flex-col gap-6 tilt-r" in:fade>
+				<div class="flex flex-col gap-1 border-b-2 border-black/10 pb-4 mb-2 text-left">
+					<h2 class="text-3xl font-bold font-hachi text-[#E87848] brush-underline">Cost Calculator</h2>
 					<p class="text-sm text-gray-400 mt-1">Estimate your commission rate in real-time according to my standard rates.</p>
 				</div>
 
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-2">
 					<!-- Inputs Column -->
-					<div class="flex flex-col gap-5">
+					<div class="flex flex-col gap-5 text-left">
 						<!-- Category Selector -->
 						<div class="flex flex-col gap-2">
 							<span class="text-sm font-semibold text-gray-300 tracking-wider">Commission Format</span>
 							<div class="grid grid-cols-3 gap-2">
 								<button 
 									onclick={() => calcCategory = 'illustration'}
-									class="py-2.5 px-2 rounded-xl text-sm font-bold border transition-all {calcCategory === 'illustration' ? 'bg-[#E87848]/20 border-[#E87848] text-[#E87848]' : 'bg-white/5 border-white/5 text-gray-300 hover:bg-white/10'}"
+									class="comic-btn py-2.5 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcCategory === 'illustration' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 								>
 									Illustration
 								</button>
 								<button 
 									onclick={() => calcCategory = 'stickers'}
-									class="py-2.5 px-2 rounded-xl text-sm font-bold border transition-all {calcCategory === 'stickers' ? 'bg-[#E87848]/20 border-[#E87848] text-[#E87848]' : 'bg-white/5 border-white/5 text-gray-300 hover:bg-white/10'}"
+									class="comic-btn py-2.5 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcCategory === 'stickers' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 								>
 									Stickers
 								</button>
 								<button 
 									onclick={() => calcCategory = 'emotes'}
-									class="py-2.5 px-2 rounded-xl text-sm font-bold border transition-all {calcCategory === 'emotes' ? 'bg-[#E87848]/20 border-[#E87848] text-[#E87848]' : 'bg-white/5 border-white/5 text-gray-300 hover:bg-white/10'}"
+									class="comic-btn py-2.5 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcCategory === 'emotes' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 								>
 									Emotes
 								</button>
@@ -405,19 +641,19 @@
 								<div class="grid grid-cols-3 gap-2">
 									<button 
 										onclick={() => calcType = 'head-shot'}
-										class="py-2 px-1 rounded-xl text-xs font-bold border transition-all {calcType === 'head-shot' ? 'bg-[#E87848]/15 border-[#E87848]/50 text-[#E87848]' : 'bg-white/5 border-white/5 text-gray-300 hover:bg-white/10'}"
+										class="comic-btn py-2 px-1 rounded-xl text-xs font-bold border-2 transition-all {calcType === 'head-shot' ? 'comic-btn-blue' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
 										Head Shot ($20)
 									</button>
 									<button 
 										onclick={() => calcType = 'half-body'}
-										class="py-2 px-1 rounded-xl text-xs font-bold border transition-all {calcType === 'half-body' ? 'bg-[#E87848]/15 border-[#E87848]/50 text-[#E87848]' : 'bg-white/5 border-white/5 text-gray-300 hover:bg-white/10'}"
+										class="comic-btn py-2 px-1 rounded-xl text-xs font-bold border-2 transition-all {calcType === 'half-body' ? 'comic-btn-blue' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
 										Half Body ($30)
 									</button>
 									<button 
 										onclick={() => calcType = 'full-body'}
-										class="py-2 px-1 rounded-xl text-xs font-bold border transition-all {calcType === 'full-body' ? 'bg-[#E87848]/15 border-[#E87848]/50 text-[#E87848]' : 'bg-white/5 border-white/5 text-gray-300 hover:bg-white/10'}"
+										class="comic-btn py-2 px-1 rounded-xl text-xs font-bold border-2 transition-all {calcType === 'full-body' ? 'comic-btn-blue' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
 										Full Body ($60)
 									</button>
@@ -429,19 +665,19 @@
 								<div class="grid grid-cols-3 gap-2">
 									<button 
 										onclick={() => calcComplexity = 'simple'}
-										class="py-2 px-1 rounded-xl text-xs font-bold border transition-all {calcComplexity === 'simple' ? 'bg-[#E87848]/15 border-[#E87848]/50 text-[#E87848]' : 'bg-white/5 border-white/5 text-gray-300 hover:bg-white/10'}"
+										class="comic-btn py-2 px-1 rounded-xl text-xs font-bold border-2 transition-all {calcComplexity === 'simple' ? 'comic-btn-purple' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
 										Simple (+$0)
 									</button>
 									<button 
 										onclick={() => calcComplexity = 'medium'}
-										class="py-2 px-1 rounded-xl text-xs font-bold border transition-all {calcComplexity === 'medium' ? 'bg-[#E87848]/15 border-[#E87848]/50 text-[#E87848]' : 'bg-white/5 border-white/5 text-gray-300 hover:bg-white/10'}"
+										class="comic-btn py-2 px-1 rounded-xl text-xs font-bold border-2 transition-all {calcComplexity === 'medium' ? 'comic-btn-purple' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
 										Medium (+$10)
 									</button>
 									<button 
 										onclick={() => calcComplexity = 'complex'}
-										class="py-2 px-1 rounded-xl text-xs font-bold border transition-all {calcComplexity === 'complex' ? 'bg-[#E87848]/15 border-[#E87848]/50 text-[#E87848]' : 'bg-white/5 border-white/5 text-gray-300 hover:bg-white/10'}"
+										class="comic-btn py-2 px-1 rounded-xl text-xs font-bold border-2 transition-all {calcComplexity === 'complex' ? 'comic-btn-purple' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
 										Complex (+$20)
 									</button>
@@ -453,19 +689,19 @@
 								<div class="grid grid-cols-3 gap-2">
 									<button 
 										onclick={() => calcBackground = 'flat'}
-										class="py-2 px-1 rounded-xl text-xs font-bold border transition-all {calcBackground === 'flat' ? 'bg-[#E87848]/15 border-[#E87848]/50 text-[#E87848]' : 'bg-white/5 border-white/5 text-gray-300 hover:bg-white/10'}"
+										class="comic-btn py-2 px-1 rounded-xl text-xs font-bold border-2 transition-all {calcBackground === 'flat' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
 										None / Flat (+$0)
 									</button>
 									<button 
 										onclick={() => calcBackground = 'simple'}
-										class="py-2 px-1 rounded-xl text-xs font-bold border transition-all {calcBackground === 'simple' ? 'bg-[#E87848]/15 border-[#E87848]/50 text-[#E87848]' : 'bg-white/5 border-white/5 text-gray-300 hover:bg-white/10'}"
+										class="comic-btn py-2 px-1 rounded-xl text-xs font-bold border-2 transition-all {calcBackground === 'simple' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
 										Simple (+$10)
 									</button>
 									<button 
 										onclick={() => calcBackground = 'detailed'}
-										class="py-2 px-1 rounded-xl text-xs font-bold border transition-all {calcBackground === 'detailed' ? 'bg-[#E87848]/15 border-[#E87848]/50 text-[#E87848]' : 'bg-white/5 border-white/5 text-gray-300 hover:bg-white/10'}"
+										class="comic-btn py-2 px-1 rounded-xl text-xs font-bold border-2 transition-all {calcBackground === 'detailed' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
 										Detailed (+$25)
 									</button>
@@ -521,49 +757,49 @@
 						{/if}
 					</div>
 
-					<!-- Pricing Calculation Breakdown Column -->
-					<div class="glass-panel border-[#E87848]/10 bg-black/20 rounded-2xl p-6 flex flex-col justify-between">
+					<!-- Pricing Calculation Breakdown Column (Receipt Slip Style) -->
+					<div class="receipt-slip p-6 flex flex-col justify-between text-left border-3 border-black">
 						<div class="flex flex-col gap-4">
-							<h3 class="text-lg font-bold text-white tracking-wider border-b border-white/5 pb-2">Calculation Breakdown</h3>
+							<h3 class="text-xl font-bold font-hachi text-black tracking-wider border-b-2 border-black/20 pb-2">Commission Receipt</h3>
 							
-							<div class="flex flex-col gap-2 text-sm">
+							<div class="flex flex-col gap-3 text-sm text-gray-800 font-semibold font-gochi text-base">
 								{#if calcCategory === 'illustration'}
 									<div class="flex justify-between">
-										<span class="text-gray-400">Base Price ({calcType.replace('-', ' ')})</span>
-										<span class="text-gray-200">${calcType === 'head-shot' ? 20 : calcType === 'half-body' ? 30 : 60}</span>
+										<span>Base Price ({calcType.replace('-', ' ')})</span>
+										<span>${calcType === 'head-shot' ? 20 : calcType === 'half-body' ? 30 : 60}</span>
 									</div>
 									<div class="flex justify-between">
-										<span class="text-gray-400">Complexity ({calcComplexity})</span>
-										<span class="text-gray-200">+${calcComplexity === 'simple' ? 0 : calcComplexity === 'medium' ? 10 : 20}</span>
+										<span>Complexity ({calcComplexity})</span>
+										<span>+${calcComplexity === 'simple' ? 0 : calcComplexity === 'medium' ? 10 : 20}</span>
 									</div>
 									<div class="flex justify-between">
-										<span class="text-gray-400">Background ({calcBackground})</span>
-										<span class="text-gray-200">+${calcBackground === 'flat' ? 0 : calcBackground === 'simple' ? 10 : 25}</span>
+										<span>Background ({calcBackground})</span>
+										<span>+${calcBackground === 'flat' ? 0 : calcBackground === 'simple' ? 10 : 25}</span>
 									</div>
 									{#if calcCharacters > 1}
-										<div class="flex justify-between text-[#E87848]/90">
+										<div class="flex justify-between text-[#d73d48]">
 											<span>Extra Characters (x{calcCharacters - 1})</span>
 											<span>+${((calcType === 'head-shot' ? 20 : calcType === 'half-body' ? 30 : 60) + (calcComplexity === 'simple' ? 0 : calcComplexity === 'medium' ? 10 : 20)) * 0.5 * (calcCharacters - 1)}</span>
 										</div>
 									{/if}
 								{:else if calcCategory === 'stickers'}
 									<div class="flex justify-between">
-										<span class="text-gray-400">Base Sticker (x1)</span>
-										<span class="text-gray-200">$20</span>
+										<span>Base Sticker (x1)</span>
+										<span>$20</span>
 									</div>
 									{#if calcStickerQty > 1}
-										<div class="flex justify-between text-[#E87848]/90">
+										<div class="flex justify-between text-[#d73d48]">
 											<span>Additional Stickers (x{calcStickerQty - 1})</span>
 											<span>+${(calcStickerQty - 1) * 10}</span>
 										</div>
 									{/if}
 								{:else if calcCategory === 'emotes'}
 									<div class="flex justify-between">
-										<span class="text-gray-400">Base Emote (x1)</span>
-										<span class="text-gray-200">$10</span>
+										<span>Base Emote (x1)</span>
+										<span>$10</span>
 									</div>
 									{#if calcEmoteQty > 1}
-										<div class="flex justify-between text-[#E87848]/90">
+										<div class="flex justify-between text-[#d73d48]">
 											<span>Additional Emotes (x{calcEmoteQty - 1})</span>
 											<span>+${(calcEmoteQty - 1) * 5}</span>
 										</div>
@@ -572,28 +808,41 @@
 							</div>
 						</div>
 
-						<div class="border-t border-white/5 pt-4 mt-6">
+						<div class="border-t-2 border-dashed border-black/30 pt-4 mt-6">
 							<div class="flex justify-between items-baseline">
-								<span class="text-base font-bold text-gray-300">Estimated Total:</span>
-								<span class="text-4xl font-extrabold font-hachi text-[#E87848] drop-shadow-md">
+								<span class="text-base font-bold text-gray-700">Estimated Total:</span>
+								<span class="text-4xl font-extrabold font-hachi text-[#E87848] drop-shadow-sm">
 									${calculatedPrice}
 								</span>
 							</div>
-							<span class="text-[10px] text-gray-500 block text-right mt-1">*Final price may vary depending on complex detail inquiries.</span>
+							<span class="text-[10px] text-gray-500 block text-right mt-1">*Final price may vary depending on complex details.</span>
+							
+							<button 
+								onclick={copyOrderDetails}
+								class="comic-btn {copied ? 'bg-emerald-400 text-black' : 'comic-btn-orange'} py-2.5 px-4 rounded-xl text-sm font-bold mt-4 w-full transition-all flex items-center justify-center gap-2"
+							>
+								{#if copied}
+									Copied to Clipboard! 📋
+								{:else}
+									Copy Order Details 📋
+								{/if}
+							</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		{:else if activeTab === 'terms'}
 			<!-- TERMS TAB -->
-			<div class="tab-content flex flex-col gap-6">
+			<div class="tab-content flex flex-col gap-6 text-left" in:fade>
+				<!-- Commandments Header Logo -->
+				<div class="flex justify-center mb-4">
+					<img src="{base}/assets/commandments.png" alt="Commandments" class="h-16 object-contain filter drop-shadow-[2.5px_2.5px_0_#000] rotate-[1.5deg]" />
+				</div>
+
 				<!-- Spoiler Alert Header Section -->
-				<div class="glass-panel rounded-3xl p-6 border-red-500/10 flex flex-col gap-4">
-					<h2 class="text-2xl font-bold font-gochi text-[#E34049]">
-						📜 Commission Rules & Guidelines
-					</h2>
-					<div class="p-4 bg-red-950/20 border border-red-900/30 rounded-2xl text-left leading-relaxed">
-						<span class="text-gray-200 font-semibold text-lg">
+				<div class="comic-panel p-6 border-[#E34049]/20 tilt-l">
+					<div class="p-4 bg-red-950/20 border-2 border-black rounded-2xl text-left leading-relaxed shadow-[3px_3px_0_#000]">
+						<span class="text-gray-200 font-semibold text-base md:text-lg">
 							Hewoo here are my rules! If you don't like em... well 
 							<span 
 								onclick={() => showSpoiler = !showSpoiler}
@@ -611,8 +860,8 @@
 
 				<!-- Terms Accordion Cards -->
 				<div class="flex flex-col gap-4">
-					{#each artistInfo.terms as term}
-						<div class="glass-panel rounded-2xl p-5 flex flex-col gap-2 border-l-4 {term.type === 'error' ? 'border-l-red-500 bg-red-950/5' : term.type === 'success' ? 'border-l-emerald-500 bg-emerald-950/5' : 'border-l-cyan-500 bg-cyan-950/5'}">
+					{#each artistInfo.terms as term, i}
+						<div class="speech-bubble bubble-l pl-7 p-5 flex flex-col gap-2 border-l-8 {term.type === 'error' ? 'border-l-red-500' : term.type === 'success' ? 'border-l-emerald-500' : 'border-l-cyan-500'}">
 							<h3 class="text-lg font-bold tracking-wide flex items-center gap-2 {term.type === 'error' ? 'text-red-300' : term.type === 'success' ? 'text-emerald-300' : 'text-cyan-300'}">
 								{#if term.type === 'error'}
 									❌ {term.title}
@@ -622,7 +871,7 @@
 									✨ {term.title}
 								{/if}
 							</h3>
-							<p class="text-gray-300 leading-relaxed text-sm md:text-base pl-6">{term.content}</p>
+							<p class="text-gray-300 leading-relaxed text-sm md:text-base">{term.content}</p>
 						</div>
 					{/each}
 				</div>
@@ -644,7 +893,7 @@
 		<!-- Control Buttons -->
 		<button 
 			onclick={prevLightboxImage}
-			class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/5 hover:bg-white/15 text-white transition-all border border-white/5 cursor-pointer z-50"
+			class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 p-3.5 rounded-xl bg-black border-3 border-black text-white hover:bg-[#BC8DF7] hover:text-black transition-all cursor-pointer z-50 shadow-[3px_3px_0_rgba(255,255,255,0.1)] hover:translate-y-[calc(-50%-2px)]"
 			title="Previous Image"
 		>
 			<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
@@ -652,7 +901,7 @@
 
 		<button 
 			onclick={nextLightboxImage}
-			class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/5 hover:bg-white/15 text-white transition-all border border-white/5 cursor-pointer z-50"
+			class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 p-3.5 rounded-xl bg-black border-3 border-black text-white hover:bg-[#BC8DF7] hover:text-black transition-all cursor-pointer z-50 shadow-[3px_3px_0_rgba(255,255,255,0.1)] hover:translate-y-[calc(-50%-2px)]"
 			title="Next Image"
 		>
 			<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
@@ -660,15 +909,15 @@
 
 		<button 
 			onclick={closeLightbox}
-			class="absolute top-4 right-4 md:top-8 md:right-8 p-3 rounded-full bg-white/5 hover:bg-white/15 text-white transition-all border border-white/5 cursor-pointer z-50"
+			class="absolute top-4 right-4 md:top-8 md:right-8 p-3 rounded-xl bg-black border-3 border-black text-white hover:bg-red-500 hover:text-white transition-all cursor-pointer z-50 shadow-[3px_3px_0_rgba(255,255,255,0.1)] hover:translate-y-[-2px]"
 			title="Close Lightbox"
 		>
 			<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
 		</button>
 
-		<!-- Lightbox Image Wrapper -->
+		<!-- Lightbox Image Wrapper (Tilted Board Frame) -->
 		<div 
-			class="relative max-w-full max-h-[85vh] md:max-h-[80vh] flex flex-col items-center select-none cursor-default"
+			class="relative max-w-full max-h-[85vh] md:max-h-[80vh] flex flex-col items-center select-none cursor-default bg-[#0b2130] border-3 border-black p-4 rounded-3xl shadow-[8px_8px_0_#000]"
 			onclick={(e) => e.stopPropagation()}
 			onkeydown={(e) => e.stopPropagation()}
 			role="dialog"
@@ -679,7 +928,7 @@
 			<img 
 				src={activeLightboxImage.src} 
 				alt={activeLightboxImage.title} 
-				class="max-w-full max-h-[75vh] object-contain rounded-2xl shadow-2xl border border-white/10"
+				class="max-w-full max-h-[65vh] object-contain rounded-2xl border-2 border-black"
 			/>
 			<div class="mt-4 text-center">
 				<h4 class="text-xl font-bold font-hachi text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-[#BC8DF7]">

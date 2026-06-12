@@ -15,39 +15,92 @@
 
 		reset(width, height) {
 			this.x = Math.random() * width;
-			this.y = height + 10;
-			this.size = Math.random() * 2 + 1;
-			this.speedX = Math.random() * 0.4 - 0.2;
-			this.speedY = -(Math.random() * 0.5 + 0.2); // float upwards
-			this.opacity = Math.random() * 0.6 + 0.1;
+			this.y = height + 30;
+			this.type = Math.random() > 0.45 ? 'star' : 'wave'; // 55% stars, 45% waves
+			this.size = this.type === 'star' ? Math.random() * 8 + 4 : Math.random() * 20 + 15; // stars: radius, waves: width
+			this.speedX = Math.random() * 0.3 - 0.15;
+			this.speedY = -(Math.random() * 0.4 + 0.15); // float upwards slowly
+			this.opacity = Math.random() * 0.4 + 0.1;
 			this.maxOpacity = this.opacity;
-			this.hue = Math.random() * 60 + 260; // purple / blue spectrum
-			this.pulseSpeed = Math.random() * 0.02 + 0.005;
+			this.pulseSpeed = Math.random() * 0.005 + 0.002;
 			this.pulseDir = Math.random() > 0.5 ? 1 : -1;
+			
+			// Accent colors: Cyan (#24D8E3), Orange (#E87848), Purple (#BC8DF7)
+			const colors = ['#24D8E3', '#E87848', '#BC8DF7'];
+			this.color = colors[Math.floor(Math.random() * colors.length)];
+			this.rotation = Math.random() * Math.PI * 2;
+			this.rotSpeed = Math.random() * 0.01 - 0.005;
+			this.waveOffset = Math.random() * Math.PI * 2;
 		}
 
 		update(width, height) {
 			this.x += this.speedX;
 			this.y += this.speedY;
+			this.rotation += this.rotSpeed;
+			this.waveOffset += 0.03;
 
-			// Pulse opacity slightly
+			// Add a slight horizontal sway to waves
+			if (this.type === 'wave') {
+				this.x += Math.sin(this.waveOffset) * 0.15;
+			}
+
+			// Pulse opacity
 			this.opacity += this.pulseSpeed * this.pulseDir;
-			if (this.opacity > this.maxOpacity || this.opacity < 0.1) {
+			if (this.opacity > this.maxOpacity || this.opacity < 0.05) {
 				this.pulseDir *= -1;
 			}
 
-			if (this.y < -10 || this.x < -10 || this.x > width + 10) {
+			if (this.y < -30 || this.x < -30 || this.x > width + 30) {
 				this.reset(width, height);
 			}
 		}
 
 		draw(ctx) {
-			ctx.beginPath();
-			ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-			ctx.fillStyle = `hsla(${this.hue}, 85%, 75%, ${this.opacity})`;
-			ctx.shadowBlur = this.size * 3;
-			ctx.shadowColor = `hsla(${this.hue}, 85%, 75%, 0.8)`;
-			ctx.fill();
+			ctx.save();
+			ctx.strokeStyle = this.color;
+			ctx.fillStyle = this.color;
+			ctx.globalAlpha = this.opacity;
+			ctx.lineWidth = 1.5;
+
+			if (this.type === 'star') {
+				// Draw a cute hand-drawn style 4-point star
+				ctx.translate(this.x, this.y);
+				ctx.rotate(this.rotation);
+				
+				ctx.beginPath();
+				ctx.moveTo(0, -this.size);
+				ctx.quadraticCurveTo(0, 0, this.size, 0);
+				ctx.quadraticCurveTo(0, 0, 0, this.size);
+				ctx.quadraticCurveTo(0, 0, -this.size, 0);
+				ctx.quadraticCurveTo(0, 0, 0, -this.size);
+				ctx.closePath();
+				
+				// Outline style for hand-drawn look
+				ctx.stroke();
+				if (this.size > 7) {
+					ctx.globalAlpha = this.opacity * 0.3;
+					ctx.fill();
+				}
+			} else {
+				// Draw a little sine-wave wiggle line segment
+				ctx.beginPath();
+				const segments = 20;
+				const amp = 4;
+				const freq = 0.3;
+				
+				for (let i = 0; i <= segments; i++) {
+					const dx = this.x - this.size / 2 + (i / segments) * this.size;
+					const dy = this.y + Math.sin((i * freq) + this.waveOffset) * amp;
+					if (i === 0) {
+						ctx.moveTo(dx, dy);
+					} else {
+						ctx.lineTo(dx, dy);
+					}
+				}
+				ctx.stroke();
+			}
+
+			ctx.restore();
 		}
 	}
 
@@ -126,8 +179,8 @@
 
 <!-- Original Background Image Texturing -->
 <div 
-	class="fixed inset-0 -z-20 pointer-events-none bg-cover bg-center bg-repeat opacity-25"
-	style="background-image: linear-gradient(to top, rgba(8, 6, 15, 0.95), rgba(8, 6, 15, 0.85)), url('{base}/assets/bg.jpg');"
+	class="fixed inset-0 -z-20 pointer-events-none bg-cover bg-center bg-no-repeat opacity-80"
+	style="background-image: linear-gradient(to top, rgba(5, 16, 26, 0.85), rgba(5, 16, 26, 0.45)), url('{base}/assets/bg.jpg');"
 ></div>
 
 <main class="relative min-h-screen flex flex-col justify-between z-10 px-4 md:px-8 py-8 max-w-6xl mx-auto">

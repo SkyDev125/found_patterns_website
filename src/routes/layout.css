@@ -3,13 +3,18 @@
 @import 'tailwindcss';
 
 :root {
-  --color-bg: #08060f;
-  --color-card-bg: rgba(18, 14, 33, 0.65);
+  --color-bg: #05101a;
+  --color-card-bg: rgba(11, 28, 41, 0.85);
+  --color-border: #000000;
+  --color-shadow: #000000;
+  
+  /* Vibrant comic accents */
   --color-accent-blue: #24D8E3;
   --color-accent-red: #E34049;
   --color-accent-orange: #E87848;
   --color-accent-purple: #BC8DF7;
   --color-accent-green: #7EEDB8;
+  
   --font-gochi: 'Gochi Hand', cursive;
   --font-hachi: 'Hachi Maru Pop', cursive;
   --font-sans: 'Outfit', sans-serif;
@@ -25,120 +30,201 @@ body {
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(8, 6, 15, 0.5);
+  background: var(--color-bg);
+  border-left: 3px solid var(--color-border);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(188, 141, 247, 0.4);
-  border-radius: 4px;
+  background: var(--color-accent-purple);
+  border: 3px solid var(--color-border);
+  box-shadow: inset 1px 1px 0px rgba(255, 255, 255, 0.4);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(188, 141, 247, 0.7);
+  background: var(--color-accent-blue);
 }
 
-/* Glassmorphism Styles */
-.glass-panel {
-  background: var(--color-card-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.glass-panel:hover {
-  border-color: rgba(188, 141, 247, 0.25);
-  box-shadow: 0 12px 40px 0 rgba(188, 141, 247, 0.1);
-}
-
-/* Interactive elements */
-.art-button {
-  font-family: var(--font-gochi);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.25s ease;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+/* Comic / Line-Art Panels */
+.comic-panel {
+  background-color: var(--color-card-bg);
+  border: 3px solid var(--color-border);
+  box-shadow: 6px 6px 0px var(--color-shadow);
+  border-radius: 24px;
   position: relative;
-  overflow: hidden;
+  backdrop-filter: blur(12px);
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease;
 }
 
-.art-button::after {
+/* Doodle Canvas Container */
+.doodle-container {
+  background-color: #0c1724;
+  background-image: radial-gradient(rgba(188, 141, 247, 0.2) 1.5px, transparent 1.5px);
+  background-size: 16px 16px;
+  border: 3px dashed var(--color-accent-purple);
+}
+
+/* Subtle tilts to resemble loose sketches */
+.tilt-l {
+  transform: rotate(-0.5deg);
+}
+
+.tilt-r {
+  transform: rotate(0.5deg);
+}
+
+.tilt-hover:hover {
+  transform: scale(1.01) rotate(0deg);
+  box-shadow: 8px 8px 0px var(--color-shadow);
+}
+
+/* Comic Speech Bubbles */
+.speech-bubble {
+  position: relative;
+  background-color: #0e202f;
+  border: 3px solid var(--color-border);
+  border-radius: 20px;
+  box-shadow: 4px 4px 0px var(--color-shadow);
+}
+
+.speech-bubble::after, .speech-bubble::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-  transition: 0.5s;
+  border-style: solid;
+  display: block;
+  width: 0;
 }
 
-.art-button:hover::after {
-  left: 100%;
+/* Left pointing bubble arrow */
+.bubble-l::after {
+  left: -12px;
+  top: 24px;
+  border-width: 8px 12px 8px 0;
+  border-color: transparent #0e202f transparent transparent;
+  z-index: 2;
 }
 
-.art-button:hover {
-  transform: scale(1.03) translateY(-2px);
+.bubble-l::before {
+  left: -17px;
+  top: 22px;
+  border-width: 10px 14px 10px 0;
+  border-color: transparent var(--color-border) transparent transparent;
+  z-index: 1;
 }
 
-.art-button:active {
-  transform: scale(0.98) translateY(0);
+/* Top pointing bubble arrow */
+.bubble-t::after {
+  left: 24px;
+  top: -12px;
+  border-width: 0 8px 12px 8px;
+  border-color: transparent transparent #0e202f transparent;
+  z-index: 2;
 }
 
-/* Tab Active Transitions */
-.tab-content {
-  animation: fadeIn 0.4s ease-out forwards;
+.bubble-t::before {
+  left: 22px;
+  top: -17px;
+  border-width: 0 10px 14px 10px;
+  border-color: transparent transparent var(--color-border) transparent;
+  z-index: 1;
 }
 
-/* Keyframe Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Right pointing bubble arrow */
+.bubble-r::after {
+  right: -12px;
+  top: 24px;
+  border-width: 8px 0 8px 12px;
+  border-color: transparent transparent transparent #0e202f;
+  z-index: 2;
 }
 
-.floating {
-  animation: float 6s ease-in-out infinite;
+.bubble-r::before {
+  right: -17px;
+  top: 22px;
+  border-width: 10px 0 10px 14px;
+  border-color: transparent transparent transparent var(--color-border);
+  z-index: 1;
 }
 
-@keyframes float {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
+/* Bottom pointing bubble arrow */
+.bubble-b::after {
+  left: 24px;
+  bottom: -12px;
+  border-width: 12px 8px 0 8px;
+  border-color: #0e202f transparent transparent transparent;
+  z-index: 2;
 }
 
-.floating-delayed {
-  animation: floatDelayed 7s ease-in-out infinite;
+.bubble-b::before {
+  left: 22px;
+  bottom: -17px;
+  border-width: 14px 10px 0 10px;
+  border-color: var(--color-border) transparent transparent transparent;
+  z-index: 1;
 }
 
-@keyframes floatDelayed {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-12px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
+/* Comic Button Styles */
+.comic-btn {
+  font-family: var(--font-gochi);
+  font-weight: bold;
+  border: 3px solid var(--color-border);
+  box-shadow: 4px 4px 0px var(--color-shadow);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  cursor: pointer;
+}
+
+.comic-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--color-shadow);
+}
+
+.comic-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--color-shadow);
+}
+
+.comic-btn-blue {
+  background-color: var(--color-accent-blue);
+  color: #000000;
+}
+
+.comic-btn-purple {
+  background-color: var(--color-accent-purple);
+  color: #000000;
+}
+
+.comic-btn-orange {
+  background-color: var(--color-accent-orange);
+  color: #000000;
+}
+
+.comic-btn-red {
+  background-color: var(--color-accent-red);
+  color: #ffffff;
+}
+
+.comic-btn-dark {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.comic-btn-dark:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--color-border);
+}
+
+/* Text styles */
+.comic-font-gochi {
+  font-family: var(--font-gochi);
+}
+
+.comic-font-hachi {
+  font-family: var(--font-hachi);
 }
 
 /* Custom drawing brush underline effect */
@@ -150,18 +236,85 @@ body {
 .brush-underline::after {
   content: '';
   position: absolute;
-  left: 0;
+  left: -2%;
   bottom: -4px;
-  width: 100%;
+  width: 104%;
   height: 6px;
-  background-color: var(--color-accent-purple);
+  background-color: var(--color-accent-blue);
   border-radius: 4px;
-  opacity: 0.7;
-  transform: scaleX(0);
-  transform-origin: bottom left;
-  transition: transform 0.3s ease-out;
+  opacity: 0.8;
+  transform: skewX(-15deg);
 }
 
-.brush-underline:hover::after {
-  transform: scaleX(1);
+/* Washi Tape Effect */
+.washi-tape-container {
+  position: relative;
+}
+
+.washi-tape {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  width: 80px;
+  height: 20px;
+  background-color: rgba(243, 225, 95, 0.75); /* semi-transparent yellow */
+  border-left: 2px dashed rgba(0, 0, 0, 0.15);
+  border-right: 2px dashed rgba(0, 0, 0, 0.15);
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.washi-tape-pink {
+  background-color: rgba(227, 64, 73, 0.7);
+  transform: translateX(-50%) rotate(4deg);
+}
+
+.washi-tape-cyan {
+  background-color: rgba(36, 216, 227, 0.7);
+  transform: translateX(-50%) rotate(-2deg);
+}
+
+.washi-tape-purple {
+  background-color: rgba(188, 141, 247, 0.7);
+  transform: translateX(-50%) rotate(3deg);
+}
+
+/* Receipt Order Slip */
+.receipt-slip {
+  background-color: #faf6ee;
+  color: #0b1a24;
+  border: 3px solid #000000;
+  box-shadow: 4px 4px 0px #000000;
+  border-radius: 16px;
+  position: relative;
+  background-image: radial-gradient(#e2dbcd 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* Animations */
+@keyframes cute-wiggle {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-5deg) scale(1.05); }
+  75% { transform: rotate(5deg) scale(1.05); }
+}
+
+.animate-wiggle {
+  transition: transform 0.2s ease;
+}
+
+.animate-wiggle:hover {
+  animation: cute-wiggle 0.4s ease-in-out infinite alternate;
+}
+
+/* Decorative Outline Silhouette hover effect */
+.floating-silhouette {
+  opacity: 0.15;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.floating-silhouette:hover {
+  opacity: 0.7;
+  transform: scale(1.1) rotate(5deg);
 }
