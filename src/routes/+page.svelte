@@ -617,19 +617,19 @@
 										onclick={() => calcType = 'head-shot'}
 										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcType === 'head-shot' ? 'comic-btn-blue' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
-										Head Shot ($20)
+										Head Shot <span class="whitespace-nowrap">($20)</span>
 									</button>
 									<button 
 										onclick={() => calcType = 'half-body'}
 										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcType === 'half-body' ? 'comic-btn-blue' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
-										Half Body ($30)
+										Half Body <span class="whitespace-nowrap">($30)</span>
 									</button>
 									<button 
 										onclick={() => calcType = 'full-body'}
 										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcType === 'full-body' ? 'comic-btn-blue' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
-										Full Body ($60)
+										Full Body <span class="whitespace-nowrap">($60)</span>
 									</button>
 								</div>
 							</div>
@@ -641,19 +641,19 @@
 										onclick={() => calcComplexity = 'simple'}
 										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcComplexity === 'simple' ? 'comic-btn-purple' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
-										Simple (+$0)
+										Simple <span class="whitespace-nowrap">(+$0)</span>
 									</button>
 									<button 
 										onclick={() => calcComplexity = 'medium'}
 										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcComplexity === 'medium' ? 'comic-btn-purple' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
-										Medium (+$10)
+										Medium <span class="whitespace-nowrap">(+$10)</span>
 									</button>
 									<button 
 										onclick={() => calcComplexity = 'complex'}
 										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcComplexity === 'complex' ? 'comic-btn-purple' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
-										Complex (+$20)
+										Complex <span class="whitespace-nowrap">(+$20)</span>
 									</button>
 								</div>
 							</div>
@@ -665,19 +665,19 @@
 										onclick={() => calcBackground = 'flat'}
 										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcBackground === 'flat' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
-										None / Flat (+$0)
+										None / Flat <span class="whitespace-nowrap">(+$0)</span>
 									</button>
 									<button 
 										onclick={() => calcBackground = 'simple'}
 										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcBackground === 'simple' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
-										Simple (+$10)
+										Simple <span class="whitespace-nowrap">(+$10)</span>
 									</button>
 									<button 
 										onclick={() => calcBackground = 'detailed'}
 										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcBackground === 'detailed' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
-										Detailed (+$25)
+										Detailed <span class="whitespace-nowrap">(+$25)</span>
 									</button>
 								</div>
 							</div>
