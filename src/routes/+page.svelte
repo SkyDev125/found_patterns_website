@@ -355,7 +355,7 @@
 					href={social.url} 
 					target="_blank" 
 					rel="noreferrer"
-					class="p-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-gray-300 transition-all border border-white/5 hover:border-black hover:border-2 hover:bg-[#BC8DF7] hover:text-black flex items-center justify-center filter hover:drop-shadow-[2px_2px_0_#000]"
+					class="p-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-gray-300 transition-all border-2 border-white/5 hover:border-black hover:bg-[#BC8DF7] hover:text-black flex items-center justify-center filter hover:drop-shadow-[2px_2px_0_#000]"
 					title={social.name}
 				>
 					{#if social.name.includes('Twitter')}

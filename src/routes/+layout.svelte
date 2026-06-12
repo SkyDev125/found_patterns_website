@@ -184,7 +184,7 @@
 ></div>
 
 <main class="relative min-h-screen flex flex-col justify-between z-10 px-4 md:px-8 py-8 max-w-6xl mx-auto">
-	<div class="w-full flex-grow flex flex-col justify-center">
+	<div class="w-full flex-grow flex flex-col justify-start">
 		{@render children()}
 	</div>
 </main>
