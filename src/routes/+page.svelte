@@ -19,13 +19,17 @@
 
 	const artistInfo = {
 		name: 'RennieFabric',
-		tagline: 'Illustrator & Character Artist',
+		tagline: 'Sine waves 🌊 | Crafting unique patterns & vibes 🎨✨',
 		discordTag: 'RennieFabric (ID: 623393220633559050)',
 		socials: [
 			{ name: 'Twitter / X', url: 'https://x.com/Renniefabric', handle: '@Renniefabric', color: '#BC8DF7' },
-			{ name: 'Instagram', url: 'https://www.instagram.com/renniefication/', handle: '@renniefication', color: '#BC8DF7' },
+			{ name: 'Instagram', url: 'https://www.instagram.com/renniefabric', handle: '@renniefabric', color: '#BC8DF7' },
 			{ name: 'Reddit', url: 'https://www.reddit.com/user/Rennieficationn/', handle: 'u/Rennieficationn', color: '#BC8DF7' },
-			{ name: 'PayPal', url: 'https://www.paypal.com/paypalme/SharlynPantajo', handle: 'Support Me', color: '#BC8DF7' }
+			{ name: 'PayPal', url: 'https://www.paypal.com/paypalme/SharlynPantajo', handle: 'Support Me', color: '#BC8DF7' },
+			{ name: 'BlueSky', url: 'https://bsky.app/profile/renniefication.bsky.social', handle: '@renniefication', color: '#BC8DF7' },
+			{ name: 'TikTok', url: 'https://www.tiktok.com/@renniefabric', handle: '@renniefabric', color: '#BC8DF7' },
+			{ name: 'YouTube', url: 'https://www.youtube.com/@RenPatterns', handle: '@RenPatterns', color: '#BC8DF7' },
+			{ name: 'Webtoon', url: 'https://www.webtoons.com/en/canvas/call-back/list?title_no=921001', handle: 'Call Back', color: '#BC8DF7' }
 		],
 		pricingCategories: [
 			{
@@ -226,6 +230,14 @@
 						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.85-1.68-6.28-1.78l1.41-4.51 3.89.83c.04.83.73 1.5 1.57 1.5 1.1 0 2-.9 2-2s-.9-2-2-2c-.77 0-1.44.44-1.77 1.11l-4.27-.92c-.19-.04-.38.05-.44.24l-1.64 5.23c-2.48.07-4.72.74-6.38 1.76C4.85 8.98 3.95 8.5 3 8.5c-1.65 0-3 1.35-3 3 0 1.12.6 2.1 1.48 2.63-.05.29-.08.59-.08.89 0 4.41 4.93 8 11 8s11-3.59 11-8c0-.3-.03-.6-.08-.89.88-.53 1.48-1.51 1.48-2.63zm-18 1c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zm11 5.66c-1.63 1.63-4.73 1.63-6.36 0-.19-.19-.19-.51 0-.7.19-.19.51-.19.7 0 1.25 1.25 3.71 1.25 4.96 0 .19-.19.51-.19.7 0 .19.19.19.51 0 .7zm-.5-4.16c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
 					{:else if social.name.includes('PayPal')}
 						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.02 6.55c-.24 1.35-.91 2.8-2.01 4.35-1.3 1.83-3 2.75-5.1 2.75h-2.1c-.5 0-.85.3-.95.8l-1.4 8.75c-.05.25-.25.45-.5.45H3.67c-.35 0-.6-.35-.5-.7l3-18.75c.1-.5.5-.8 1-.8h7.2c1.7 0 3 .4 3.9 1.25.9.8 1.15 1.95.75 3.3z"/></svg>
+					{:else if social.name.includes('BlueSky')}
+						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 10.8c-1.3-1.6-4.6-5.8-7.7-6.8C2.5 3.3 0 4.3 0 7c0 1.2.6 3.6 1.7 4.9.4.5 1.1 1 1.7 1.2-.5 0-1-.1-1.5-.2-.7-.2-1 .2-.5.8.5.7 1.8 1.8 3.5 2.1-2.5 1.2-3.8 2.6-3.8 4 0 2.5 2.6 3.5 4.3 2.9 3.1-.9 6.4-5.2 7.7-6.8 1.3 1.6 4.6 5.8 7.7 6.8 1.7.6 4.3-.4 4.3-2.9 0-1.4-1.3-2.8-3.8-4 1.7-.3 3-1.4 3.5-2.1.5-.6.2-1-.5-.8-.5.1-1 .2-1.5.2.6-.2 1.3-.7 1.7-1.2 1.1-1.3 1.7-3.7 1.7-4.9 0-2.7-2.5-3.7-4.3-3-3.1.9-6.4 5.2-7.7 6.8z"/></svg>
+					{:else if social.name.includes('TikTok')}
+						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.02-2.89-.35-4.2-1-.28-.15-.56-.32-.83-.51.02 2.39.01 4.78.01 7.18 0 1.9-.37 3.86-1.58 5.33-1.63 2.06-4.38 3.12-6.99 2.68-2.81-.43-5.28-2.67-5.91-5.46-.77-3.26.7-6.9 3.86-8.06 1.08-.41 2.24-.51 3.39-.37V9.43c-2.31-.22-4.81.41-6.42 2.15-2.02 2.12-2.3 5.61-.63 8 1.6 2.33 4.87 3.07 7.42 1.8 1.94-.92 3.1-2.99 3.09-5.18-.01-3.69-.01-7.38-.01-11.07-1.39-.02-2.77-.41-3.9-1.29-1.22-.92-1.92-2.4-2.05-3.93h.02z"/></svg>
+					{:else if social.name.includes('YouTube')}
+						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.163a3.003 3.003 0 00-2.11-2.107C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.388.511a3.003 3.003 0 00-2.11 2.107C0 8.048 0 12 0 12s0 3.952.502 5.837a3.003 3.003 0 002.11 2.107c1.883.511 9.388.511 9.388.511s7.505 0 9.388-.511a3.003 3.003 0 002.11-2.107c.502-1.885.502-5.837.502-5.837s0-3.952-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+					{:else if social.name.includes('Webtoon')}
+						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M21 5H3c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zM3 17V7h4v10H3zm6 0V7h6v10H9zm12 0h-4V7h4v10z"/></svg>
 					{/if}
 				</a>
 			{/each}
@@ -246,6 +258,23 @@
 						This site is my creative portfolio and pricing builder. Feel free to explore my gallery categories, 
 						calculate commission costs using my custom builder, and review my terms before ordering.
 					</p>
+				</div>
+
+				<!-- Webtoon Project Showcase -->
+				<div class="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-[#24D8E3]/20 rounded-2xl p-5 flex flex-col sm:flex-row items-center gap-4 justify-between mt-2">
+					<div class="text-left">
+						<span class="text-xs font-bold text-cyan-400 uppercase tracking-widest">My Webtoon Comic</span>
+						<h3 class="font-bold text-white text-xl mt-0.5">📖 Read "Call Back" on Webtoon!</h3>
+						<p class="text-sm text-gray-400 mt-1">Follow my official webcomic updates and story patterns directly on Webtoon Canvas.</p>
+					</div>
+					<a 
+						href="https://www.webtoons.com/en/canvas/call-back/list?title_no=921001" 
+						target="_blank" 
+						rel="noreferrer"
+						class="art-button bg-[#24D8E3] hover:bg-[#1dbec7] text-gray-950 px-6 py-2.5 rounded-xl font-bold tracking-wider shrink-0"
+					>
+						Read Comic
+					</a>
 				</div>
 
 				<!-- Visual Highlights Grid -->
