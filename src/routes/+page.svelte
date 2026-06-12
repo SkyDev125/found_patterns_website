@@ -457,12 +457,12 @@
 						<div class="flex md:flex-col justify-between md:justify-start gap-4 w-full md:w-36 shrink-0 bg-black/25 p-3.5 rounded-2xl border border-white/5">
 							<!-- Colors -->
 							<div class="flex flex-col gap-1.5 w-full text-left">
-								<span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">Color</span>
+								<span class="text-xs font-bold uppercase tracking-wider text-gray-300 block">Color</span>
 								<div class="grid grid-cols-4 md:grid-cols-2 gap-2">
 									{#each ['#24D8E3', '#E87848', '#BC8DF7', '#E34049', '#7EEDB8', '#F3E15F', '#FFFFFF', '#000000'] as color}
 										<button 
 											onclick={() => brushColor = color}
-											class="w-7 h-7 rounded-lg border-2 transition-all {brushColor === color ? 'border-white scale-110 shadow-md' : 'border-black hover:scale-105'}"
+											class="w-8 h-8 rounded-lg border-2 transition-all {brushColor === color ? 'border-white scale-110 shadow-md' : 'border-black hover:scale-105'}"
 											style="background-color: {color}"
 											title="Brush Color: {color}"
 										></button>
@@ -472,16 +472,16 @@
 
 							<!-- Sizes -->
 							<div class="flex flex-col gap-1.5 w-full text-left mt-2">
-								<span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">Brush Size</span>
+								<span class="text-xs font-bold uppercase tracking-wider text-gray-300 block">Brush Size</span>
 								<div class="flex items-center gap-2">
 									<input 
 										type="range" 
 										min="2" 
 										max="16" 
 										bind:value={brushSize}
-										class="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#BC8DF7]"
+										class="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#BC8DF7]"
 									/>
-									<span class="text-xs font-bold text-gray-300 w-4">{brushSize}</span>
+									<span class="text-sm font-bold text-gray-200 w-4">{brushSize}</span>
 								</div>
 							</div>
 
@@ -489,13 +489,13 @@
 							<div class="flex flex-row md:flex-col gap-2 mt-auto w-full">
 								<button 
 									onclick={clearCanvas}
-									class="comic-btn comic-btn-red py-2 px-3 rounded-xl text-xs font-bold w-full"
+									class="comic-btn comic-btn-red py-2.5 px-3 rounded-xl text-sm font-bold w-full"
 								>
 									Clear 🧹
 								</button>
 								<button 
 									onclick={downloadDoodle}
-									class="comic-btn comic-btn-blue py-2 px-3 rounded-xl text-xs font-bold w-full"
+									class="comic-btn comic-btn-blue py-2.5 px-3 rounded-xl text-sm font-bold w-full"
 								>
 									Save 💾
 								</button>
@@ -585,23 +585,23 @@
 					<div class="flex flex-col gap-5 text-left">
 						<!-- Category Selector -->
 						<div class="flex flex-col gap-2">
-							<span class="text-sm font-semibold text-gray-300 tracking-wider">Commission Format</span>
-							<div class="grid grid-cols-3 gap-2">
+							<span class="text-base font-bold text-white tracking-wider">Commission Format</span>
+							<div class="grid grid-cols-3 gap-2.5">
 								<button 
 									onclick={() => calcCategory = 'illustration'}
-									class="comic-btn py-2.5 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcCategory === 'illustration' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
+									class="comic-btn py-3 px-3 rounded-xl text-base font-bold border-2 transition-all {calcCategory === 'illustration' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 								>
 									Illustration
 								</button>
 								<button 
 									onclick={() => calcCategory = 'stickers'}
-									class="comic-btn py-2.5 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcCategory === 'stickers' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
+									class="comic-btn py-3 px-3 rounded-xl text-base font-bold border-2 transition-all {calcCategory === 'stickers' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 								>
 									Stickers
 								</button>
 								<button 
 									onclick={() => calcCategory = 'emotes'}
-									class="comic-btn py-2.5 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcCategory === 'emotes' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
+									class="comic-btn py-3 px-3 rounded-xl text-base font-bold border-2 transition-all {calcCategory === 'emotes' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 								>
 									Emotes
 								</button>
@@ -611,23 +611,23 @@
 						{#if calcCategory === 'illustration'}
 							<!-- Illustration settings -->
 							<div class="flex flex-col gap-2" in:fade>
-								<span class="text-sm font-semibold text-gray-300 tracking-wider">Type / Scale</span>
+								<span class="text-base font-bold text-white tracking-wider">Type / Scale</span>
 								<div class="grid grid-cols-3 gap-2">
 									<button 
 										onclick={() => calcType = 'head-shot'}
-										class="comic-btn py-2 px-1 rounded-xl text-xs font-bold border-2 transition-all {calcType === 'head-shot' ? 'comic-btn-blue' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
+										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcType === 'head-shot' ? 'comic-btn-blue' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
 										Head Shot ($20)
 									</button>
 									<button 
 										onclick={() => calcType = 'half-body'}
-										class="comic-btn py-2 px-1 rounded-xl text-xs font-bold border-2 transition-all {calcType === 'half-body' ? 'comic-btn-blue' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
+										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcType === 'half-body' ? 'comic-btn-blue' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
 										Half Body ($30)
 									</button>
 									<button 
 										onclick={() => calcType = 'full-body'}
-										class="comic-btn py-2 px-1 rounded-xl text-xs font-bold border-2 transition-all {calcType === 'full-body' ? 'comic-btn-blue' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
+										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcType === 'full-body' ? 'comic-btn-blue' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
 										Full Body ($60)
 									</button>
@@ -635,23 +635,23 @@
 							</div>
 
 							<div class="flex flex-col gap-2" in:fade>
-								<span class="text-sm font-semibold text-gray-300 tracking-wider">Character Complexity</span>
+								<span class="text-base font-bold text-white tracking-wider">Character Complexity</span>
 								<div class="grid grid-cols-3 gap-2">
 									<button 
 										onclick={() => calcComplexity = 'simple'}
-										class="comic-btn py-2 px-1 rounded-xl text-xs font-bold border-2 transition-all {calcComplexity === 'simple' ? 'comic-btn-purple' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
+										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcComplexity === 'simple' ? 'comic-btn-purple' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
 										Simple (+$0)
 									</button>
 									<button 
 										onclick={() => calcComplexity = 'medium'}
-										class="comic-btn py-2 px-1 rounded-xl text-xs font-bold border-2 transition-all {calcComplexity === 'medium' ? 'comic-btn-purple' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
+										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcComplexity === 'medium' ? 'comic-btn-purple' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
 										Medium (+$10)
 									</button>
 									<button 
 										onclick={() => calcComplexity = 'complex'}
-										class="comic-btn py-2 px-1 rounded-xl text-xs font-bold border-2 transition-all {calcComplexity === 'complex' ? 'comic-btn-purple' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
+										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcComplexity === 'complex' ? 'comic-btn-purple' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
 										Complex (+$20)
 									</button>
@@ -659,23 +659,23 @@
 							</div>
 
 							<div class="flex flex-col gap-2" in:fade>
-								<span class="text-sm font-semibold text-gray-300 tracking-wider">Background Style</span>
+								<span class="text-base font-bold text-white tracking-wider">Background Style</span>
 								<div class="grid grid-cols-3 gap-2">
 									<button 
 										onclick={() => calcBackground = 'flat'}
-										class="comic-btn py-2 px-1 rounded-xl text-xs font-bold border-2 transition-all {calcBackground === 'flat' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
+										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcBackground === 'flat' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
 										None / Flat (+$0)
 									</button>
 									<button 
 										onclick={() => calcBackground = 'simple'}
-										class="comic-btn py-2 px-1 rounded-xl text-xs font-bold border-2 transition-all {calcBackground === 'simple' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
+										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcBackground === 'simple' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
 										Simple (+$10)
 									</button>
 									<button 
 										onclick={() => calcBackground = 'detailed'}
-										class="comic-btn py-2 px-1 rounded-xl text-xs font-bold border-2 transition-all {calcBackground === 'detailed' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
+										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcBackground === 'detailed' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
 										Detailed (+$25)
 									</button>
@@ -684,8 +684,8 @@
 
 							<div class="flex flex-col gap-2" in:fade>
 								<div class="flex justify-between items-center">
-									<span class="text-sm font-semibold text-gray-300 tracking-wider">Number of Characters</span>
-									<span class="text-sm font-bold text-[#E87848] bg-[#E87848]/10 px-2.5 py-0.5 rounded-full">{calcCharacters}</span>
+									<span class="text-base font-bold text-white tracking-wider">Number of Characters</span>
+									<span class="text-base font-bold text-[#E87848] bg-[#E87848]/10 px-2.5 py-0.5 rounded-full">{calcCharacters}</span>
 								</div>
 								<input 
 									type="range" 
@@ -694,14 +694,14 @@
 									bind:value={calcCharacters}
 									class="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#E87848]"
 								/>
-								<span class="text-[10px] text-gray-400 italic">Each additional character is 50% of the single character price (plus complexity).</span>
+								<span class="text-xs text-gray-300 italic">Each additional character is 50% of the single character price (plus complexity).</span>
 							</div>
 						{:else if calcCategory === 'stickers'}
 							<!-- Stickers Settings -->
 							<div class="flex flex-col gap-2" in:fade>
 								<div class="flex justify-between items-center">
-									<span class="text-sm font-semibold text-gray-300 tracking-wider">Quantity of Stickers</span>
-									<span class="text-sm font-bold text-[#E87848] bg-[#E87848]/10 px-2.5 py-0.5 rounded-full">{calcStickerQty}</span>
+									<span class="text-base font-bold text-white tracking-wider">Quantity of Stickers</span>
+									<span class="text-base font-bold text-[#E87848] bg-[#E87848]/10 px-2.5 py-0.5 rounded-full">{calcStickerQty}</span>
 								</div>
 								<input 
 									type="range" 
@@ -710,14 +710,14 @@
 									bind:value={calcStickerQty}
 									class="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#E87848]"
 								/>
-								<span class="text-[10px] text-gray-400 italic">First sticker is $20. Subsequent stickers are $10 each.</span>
+								<span class="text-xs text-gray-300 italic">First sticker is $20. Subsequent stickers are $10 each.</span>
 							</div>
 						{:else if calcCategory === 'emotes'}
 							<!-- Emotes Settings -->
 							<div class="flex flex-col gap-2" in:fade>
 								<div class="flex justify-between items-center">
-									<span class="text-sm font-semibold text-gray-300 tracking-wider">Quantity of Emotes</span>
-									<span class="text-sm font-bold text-[#E87848] bg-[#E87848]/10 px-2.5 py-0.5 rounded-full">{calcEmoteQty}</span>
+									<span class="text-base font-bold text-white tracking-wider">Quantity of Emotes</span>
+									<span class="text-base font-bold text-[#E87848] bg-[#E87848]/10 px-2.5 py-0.5 rounded-full">{calcEmoteQty}</span>
 								</div>
 								<input 
 									type="range" 
@@ -726,7 +726,7 @@
 									bind:value={calcEmoteQty}
 									class="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#E87848]"
 								/>
-								<span class="text-[10px] text-gray-400 italic">First emote is $10. Subsequent emotes are $5 each.</span>
+								<span class="text-xs text-gray-300 italic">First emote is $10. Subsequent emotes are $5 each.</span>
 							</div>
 						{/if}
 					</div>
@@ -736,7 +736,7 @@
 						<div class="flex flex-col gap-4">
 							<h3 class="text-xl font-bold font-hachi text-black tracking-wider border-b-2 border-black/20 pb-2">Commission Receipt</h3>
 							
-							<div class="flex flex-col gap-3 text-sm text-gray-800 font-semibold font-gochi text-base">
+							<div class="flex flex-col gap-3 text-base text-gray-900 font-bold font-gochi">
 								{#if calcCategory === 'illustration'}
 									<div class="flex justify-between">
 										<span>Base Price ({calcType.replace('-', ' ')})</span>
@@ -784,16 +784,16 @@
 
 						<div class="border-t-2 border-dashed border-black/30 pt-4 mt-6">
 							<div class="flex justify-between items-baseline">
-								<span class="text-base font-bold text-gray-700">Estimated Total:</span>
+								<span class="text-lg font-extrabold text-gray-800">Estimated Total:</span>
 								<span class="text-4xl font-extrabold font-hachi text-[#E87848] drop-shadow-sm">
 									${calculatedPrice}
 								</span>
 							</div>
-							<span class="text-[10px] text-gray-500 block text-right mt-1">*Final price may vary depending on complex details.</span>
+							<span class="text-xs text-gray-600 font-medium block text-right mt-1">*Final price may vary depending on complex details.</span>
 							
 							<button 
 								onclick={copyOrderDetails}
-								class="comic-btn {copied ? 'bg-emerald-400 text-black' : 'comic-btn-orange'} py-2.5 px-4 rounded-xl text-sm font-bold mt-4 w-full transition-all flex items-center justify-center gap-2"
+								class="comic-btn {copied ? 'bg-emerald-400 text-black' : 'comic-btn-orange'} py-3 px-4 rounded-xl text-base font-bold mt-4 w-full transition-all flex items-center justify-center gap-2"
 							>
 								{#if copied}
 									Copied to Clipboard! 📋
