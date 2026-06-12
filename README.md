@@ -39,6 +39,13 @@ bun run preview
 ## 🚀 GitHub Pages Deployment
 The project is configured to deploy automatically via GitHub Actions in `.github/workflows/deploy.yml` on every push to the `main` branch.
 
+> [!IMPORTANT]
+> **Enable GitHub Actions for Pages**:
+> By default, GitHub Pages may be configured to deploy from a branch. Since this project uses an automated Actions deployment workflow, you must enable it in the repository settings:
+> 1. Go to your repository settings page: [GitHub Pages Settings](https://github.com/SkyDev125/found_patterns_website/settings/pages)
+> 2. Under **Build and deployment** -> **Source**, select **GitHub Actions** from the dropdown menu instead of "Deploy from a branch".
+> 3. Once updated, re-run the failed GitHub Actions run or push a new commit to trigger a successful deployment.
+
 ### Base Path Configuration
 Because this site is hosted as a project page under a subdirectory (`/found_patterns_website`), SvelteKit is configured to dynamically resolve asset URLs using the `BASE_PATH` environment variable.
 - In **development**, the base path is empty (`""`).
