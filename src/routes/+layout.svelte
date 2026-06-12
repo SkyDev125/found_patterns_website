@@ -183,7 +183,7 @@
 	style="background-image: linear-gradient(to top, rgba(5, 16, 26, 0.85), rgba(5, 16, 26, 0.45)), url('{base}/assets/bg.jpg');"
 ></div>
 
-<main class="relative min-h-screen flex flex-col justify-between z-10 px-4 md:px-8 py-8 max-w-6xl mx-auto">
+<main class="relative min-h-screen flex flex-col justify-between z-10 px-4 md:px-8 py-8 max-w-6xl xl:max-w-7xl 2xl:max-w-[1440px] w-full mx-auto">
 	<div class="w-full flex-grow flex flex-col justify-start">
 		{@render children()}
 	</div>
