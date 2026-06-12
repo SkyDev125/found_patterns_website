@@ -33,8 +33,11 @@
 		const rect = doodleCanvas.getBoundingClientRect();
 		const clientX = e.clientX || (e.touches && e.touches[0].clientX);
 		const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-		lastX = clientX - rect.left;
-		lastY = clientY - rect.top;
+		
+		const scaleX = doodleCanvas.width / rect.width;
+		const scaleY = doodleCanvas.height / rect.height;
+		lastX = (clientX - rect.left) * scaleX;
+		lastY = (clientY - rect.top) * scaleY;
 	}
 
 	function draw(e) {
@@ -44,8 +47,11 @@
 		const rect = doodleCanvas.getBoundingClientRect();
 		const clientX = e.clientX || (e.touches && e.touches[0].clientX);
 		const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-		const x = clientX - rect.left;
-		const y = clientY - rect.top;
+		
+		const scaleX = doodleCanvas.width / rect.width;
+		const scaleY = doodleCanvas.height / rect.height;
+		const x = (clientX - rect.left) * scaleX;
+		const y = (clientY - rect.top) * scaleY;
 
 		ctx.beginPath();
 		ctx.moveTo(lastX, lastY);
@@ -81,11 +87,14 @@
 		tempCtx.drawImage(doodleCanvas, 0, 0);
 
 		const rect = doodleCanvas.parentElement.getBoundingClientRect();
-		doodleCanvas.width = rect.width;
-		doodleCanvas.height = 240; // Maintain fixed height matching layout
+		const targetWidth = rect.width;
+		const targetHeight = rect.height || 240;
 
-		// Restore content after resize
-		ctx.drawImage(tempCanvas, 0, 0);
+		doodleCanvas.width = targetWidth;
+		doodleCanvas.height = targetHeight;
+
+		// Restore content after resize, scaling to fit the new dimensions
+		ctx.drawImage(tempCanvas, 0, 0, tempCanvas.width, tempCanvas.height, 0, 0, targetWidth, targetHeight);
 	}
 
 	function downloadDoodle() {
@@ -95,6 +104,12 @@
 		link.href = doodleCanvas.toDataURL('image/png');
 		link.click();
 	}
+
+	$effect(() => {
+		if (doodleCanvas) {
+			resizeCanvas();
+		}
+	});
 
 	onMount(() => {
 		resizeCanvas();
