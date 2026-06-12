@@ -2,6 +2,7 @@
 	import { base } from '$app/paths';
 	import { fade, scale } from 'svelte/transition';
 	import { onMount } from 'svelte';
+	import { siX, siInstagram, siReddit, siPaypal, siBluesky, siTiktok, siYoutube, siWebtoon } from 'simple-icons';
 
 	// State management using Svelte 5 runes
 	let activeTab = $state('home');
@@ -124,14 +125,14 @@
 		tagline: 'sine waves 🌊 | patterns & vibes 🎨✨',
 		discordTag: 'RennieFabric (ID: 623393220633559050)',
 		socials: [
-			{ name: 'Twitter / X', url: 'https://x.com/Renniefabric', handle: '@Renniefabric', color: '#BC8DF7' },
-			{ name: 'Instagram', url: 'https://www.instagram.com/renniefabric', handle: '@renniefabric', color: '#BC8DF7' },
-			{ name: 'Reddit', url: 'https://www.reddit.com/user/Rennieficationn/', handle: 'u/Rennieficationn', color: '#BC8DF7' },
-			{ name: 'PayPal', url: 'https://www.paypal.com/paypalme/SharlynPantajo', handle: 'Support Me', color: '#BC8DF7' },
-			{ name: 'BlueSky', url: 'https://bsky.app/profile/renniefication.bsky.social', handle: '@renniefication', color: '#BC8DF7' },
-			{ name: 'TikTok', url: 'https://www.tiktok.com/@renniefabric', handle: '@renniefabric', color: '#BC8DF7' },
-			{ name: 'YouTube', url: 'https://www.youtube.com/@RenPatterns', handle: '@RenPatterns', color: '#BC8DF7' },
-			{ name: 'Webtoon', url: 'https://www.webtoons.com/en/canvas/call-back/list?title_no=921001', handle: 'Call Back', color: '#BC8DF7' }
+			{ name: 'Twitter / X', url: 'https://x.com/Renniefabric', handle: '@Renniefabric', color: '#BC8DF7', icon: siX },
+			{ name: 'Instagram', url: 'https://www.instagram.com/renniefabric', handle: '@renniefabric', color: '#BC8DF7', icon: siInstagram },
+			{ name: 'Reddit', url: 'https://www.reddit.com/user/Rennieficationn/', handle: 'u/Rennieficationn', color: '#BC8DF7', icon: siReddit },
+			{ name: 'PayPal', url: 'https://www.paypal.com/paypalme/SharlynPantajo', handle: 'Support Me', color: '#BC8DF7', icon: siPaypal },
+			{ name: 'BlueSky', url: 'https://bsky.app/profile/renniefication.bsky.social', handle: '@renniefication', color: '#BC8DF7', icon: siBluesky },
+			{ name: 'TikTok', url: 'https://www.tiktok.com/@renniefabric', handle: '@renniefabric', color: '#BC8DF7', icon: siTiktok },
+			{ name: 'YouTube', url: 'https://www.youtube.com/@RenPatterns', handle: '@RenPatterns', color: '#BC8DF7', icon: siYoutube },
+			{ name: 'Webtoon', url: 'https://www.webtoons.com/en/canvas/call-back/list?title_no=921001', handle: 'Call Back', color: '#BC8DF7', icon: siWebtoon }
 		],
 		pricingCategories: [
 			{
@@ -347,26 +348,12 @@
 					href={social.url} 
 					target="_blank" 
 					rel="noreferrer"
-					class="social-icon-btn p-2.5 rounded-xl bg-white/5 hover:bg-[#BC8DF7] text-gray-300 hover:text-black transition-colors duration-200 border-2 border-white/5 hover:border-black flex items-center justify-center filter hover:drop-shadow-[2px_2px_0_#000]"
+					class="p-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-gray-300 transition-all border-2 border-white/5 hover:border-black hover:bg-[#BC8DF7] hover:text-black flex items-center justify-center filter hover:drop-shadow-[2px_2px_0_#000]"
 					title={social.name}
 				>
-					{#if social.name.includes('Twitter')}
-						<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-					{:else if social.name.includes('Instagram')}
-						<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-					{:else if social.name.includes('Reddit')}
-						<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.85-1.68-6.28-1.78l1.41-4.51 3.89.83c.04.83.73 1.5 1.57 1.5 1.1 0 2-.9 2-2s-.9-2-2-2c-.77 0-1.44.44-1.77 1.11l-4.27-.92c-.19-.04-.38.05-.44.24l-1.64 5.23c-2.48.07-4.72.74-6.38 1.76C4.85 8.98 3.95 8.5 3 8.5c-1.65 0-3 1.35-3 3 0 1.12.6 2.1 1.48 2.63-.05.29-.08.59-.08.89 0 4.41 4.93 8 11 8s11-3.59 11-8c0-.3-.03-.6-.08-.89.88-.53 1.48-1.51 1.48-2.63zm-18 1c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zm11 5.66c-1.63 1.63-4.73 1.63-6.36 0-.19-.19-.19-.51 0-.7.19-.19.51-.19.7 0 1.25 1.25 3.71 1.25 4.96 0 .19-.19.51-.19.7 0 .19.19.19.51 0 .7zm-.5-4.16c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
-					{:else if social.name.includes('PayPal')}
-						<svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M14.06 3.713c.12-1.071-.093-1.832-.702-2.526C12.628.356 11.312 0 9.626 0H4.734a.7.7 0 0 0-.691.59L2.005 13.509a.42.42 0 0 0 .415.486h2.756l-.202 1.28a.628.628 0 0 0 .62.726H8.14c.429 0 .793-.31.862-.731l.025-.13.48-3.043.03-.164.001-.007a.35.35 0 0 1 .348-.297h.38c1.266 0 2.425-.256 3.345-.91q.57-.403.993-1.005a4.94 4.94 0 0 0 .88-2.195c.242-1.246.13-2.356-.57-3.154a2.7 2.7 0 0 0-.76-.59l-.094-.061ZM6.543 8.82a.7.7 0 0 1 .321-.079H8.3c2.82 0 5.027-1.144 5.672-4.456l.003-.016q.326.186.548.438c.546.623.679 1.535.45 2.71-.272 1.397-.866 2.307-1.663 2.874-.802.57-1.842.815-3.043.815h-.38a.87.87 0 0 0-.863.734l-.03.164-.48 3.043-.024.13-.001.004a.35.35 0 0 1-.348.296H5.595a.106.106 0 0 1-.105-.123l.208-1.32z"/></svg>
-					{:else if social.name.includes('BlueSky')}
-						<svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M3.468 1.948C5.303 3.325 7.276 6.118 8 7.616c.725-1.498 2.698-4.29 4.532-5.668C13.855.955 16 .186 16 2.632c0 .489-.28 4.105-.444 4.692-.572 2.04-2.653 2.561-4.504 2.246 3.236.551 4.06 2.375 2.281 4.2-3.376 3.464-4.852-.87-5.23-1.98-.07-.204-.103-.3-.103-.218 0-.081-.033.014-.102.218-.379 1.11-1.855 5.444-5.231 1.98-1.778-1.825-.955-3.65 2.28-4.2-1.85.315-3.932-.205-4.503-2.246C.28 6.737 0 3.12 0 2.632 0 .186 2.145.955 3.468 1.948"/></svg>
-					{:else if social.name.includes('TikTok')}
-						<svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3V0Z"/></svg>
-					{:else if social.name.includes('YouTube')}
-						<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.163a3.003 3.003 0 00-2.11-2.107C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.388.511a3.003 3.003 0 00-2.11 2.107C0 8.048 0 12 0 12s0 3.952.502 5.837a3.003 3.003 0 002.11 2.107c1.883.511 9.388.511 9.388.511s7.505 0 9.388-.511a3.003 3.003 0 002.11-2.107c.502-1.885.502-5.837.502-5.837s0-3.952-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-					{:else if social.name.includes('Webtoon')}
-						<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M15.023 15.26c.695 0 1.014-.404 1.014-1.051 0-.551-.308-1.01-.984-1.01-.58 0-.912.404-.912 1.016 0 .543.32 1.045.882 1.045zM10.135 15.447c.764 0 1.113-.443 1.113-1.154 0-.604-.338-1.109-1.082-1.109-.637 0-1.002.445-1.002 1.115 0 .597.352 1.148.971 1.148zM24 10.201l-3.15.029.83-9.686L1.958 3.605l1.686 6.248H0l3.734 11.488 8.713-1.283v3.396l10.113-4.641L24 10.201zm-9.104-3.594c0-.049.039-.092.088-.094l1.879-.125.446-.029c.524-.035 1.634.063 1.634 1.236 0 .83-.619 1.184-.619 1.184s.75.189.707 1.092c0 1.602-1.943 1.389-1.943 1.389l-.225-.006-1.908-.053a.089.089 0 0 1-.086-.09l.027-4.504zm-3.675.243c0-.047.039-.09.088-.092l3.064-.203a.08.08 0 0 1 .087.08v.943c0 .049-.039.09-.087.092l-1.9.08a.094.094 0 0 0-.088.09l-.005.394a.083.083 0 0 0 .086.084l1.646-.066a.082.082 0 0 1 .086.084l-.02 1.012a.089.089 0 0 1-.089.086h-1.63a.089.089 0 0 0-.088.088v.416c0 .047.039.088.088.088l1.87.033a.09.09 0 0 1 .087.09v.951a.084.084 0 0 1-.087.084l-3.063-.123a.09.09 0 0 1-.087-.09l.042-4.121zm-6.01.312l.975-.064a.101.101 0 0 1 .105.08l.458 2.205c.01.047.027.047.039 0l.576-2.281a.132.132 0 0 1 .108-.09l.921-.061a.108.108 0 0 1 .109.078l.564 2.342c.012.047.029.047.041 0l.6-2.424a.131.131 0 0 1 .108-.092l.996-.064c.048-.004.077.031.065.078l-1.09 4.104a.113.113 0 0 1-.109.082l-1.121-.031a.12.12 0 0 1-.109-.086l-.535-1.965c-.012-.047-.033-.047-.045 0l-.522 1.934a.12.12 0 0 1-.11.082l-1.109-.031a.123.123 0 0 1-.108-.088l-.873-3.618c-.011-.047.019-.088.066-.09zm-.288 9.623v-3.561a.089.089 0 0 0-.087-.088l-1.252-.029a.095.095 0 0 1-.091-.09l-.046-1.125a.082.082 0 0 1 .083-.086l4.047.096c.048 0 .087.041.085.088l-.022 1.088a.093.093 0 0 1-.089.088l-1.139.004a.09.09 0 0 0-.087.088v3.447c0 .049-.039.09-.087.092l-1.227.07a.08.08 0 0 1-.088-.082zm2.834-2.379c0-1.918 1.321-2.482 2.416-2.482s2.339.73 2.339 2.316c0 1.9-1.383 2.482-2.416 2.482-1.033.001-2.339-.724-2.339-2.316zm5.139-.115c0-1.746 1.166-2.238 2.162-2.238s2.129.664 2.129 2.107c0 1.729-1.259 2.26-2.198 2.26s-2.093-.68-2.093-2.129zm7.259 1.711a.175.175 0 0 1-.139-.064l-1.187-1.631c-.029-.039-.053-.031-.053.018v1.67c0 .047-.039.09-.086.092l-1.052.061a.082.082 0 0 1-.087-.082l.039-3.842c0-.047.039-.086.088-.084l.881.02a.2.2 0 0 1 .137.074l1.293 1.902c.027.041.051.033.051-.014l.032-1.846a.087.087 0 0 1 .089-.086l.963.029c.047 0 .085.041.083.09l-.138 3.555a.097.097 0 0 1-.091.092l-.823.046zM16.258 8.23l.724-.014s.47.018.47-.434c0-.357-.411-.33-.411-.33l-.782.008a.09.09 0 0 0-.088.088v.598a.083.083 0 0 0 .087.084zM16.229 10.191h.99c.024 0 .35-.051.35-.404 0-.293-.229-.402-.441-.398l-.898.029a.089.089 0 0 0-.087.09v.596a.086.086 0 0 0 .086.087z"/></svg>
-					{/if}
+					<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+						<path d={social.icon.path} />
+					</svg>
 				</a>
 			{/each}
 		</div>

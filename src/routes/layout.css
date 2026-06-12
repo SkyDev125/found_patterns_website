@@ -343,12 +343,3 @@ body {
   transform: scale(1.1) rotate(5deg);
 }
 
-/* Social icon buttons - no size change on hover to prevent layout shift */
-.social-icon-btn {
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, filter 0.2s ease;
-}
-
-.social-icon-btn svg {
-  display: block;
-  flex-shrink: 0;
-}
