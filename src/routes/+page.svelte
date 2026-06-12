@@ -131,8 +131,8 @@
 			{ name: 'PayPal', url: 'https://www.paypal.com/paypalme/SharlynPantajo', handle: 'Support Me', color: '#BC8DF7', icon: siPaypal },
 			{ name: 'BlueSky', url: 'https://bsky.app/profile/renniefication.bsky.social', handle: '@renniefication', color: '#BC8DF7', icon: siBluesky },
 			{ name: 'TikTok', url: 'https://www.tiktok.com/@renniefabric', handle: '@renniefabric', color: '#BC8DF7', icon: siTiktok },
-			{ name: 'YouTube', url: 'https://www.youtube.com/@RenPatterns', handle: '@RenPatterns', color: '#BC8DF7', icon: siYoutube },
-			{ name: 'Webtoon', url: 'https://www.webtoons.com/en/canvas/call-back/list?title_no=921001', handle: 'Call Back', color: '#BC8DF7', icon: siWebtoon }
+			{ name: 'YouTube', url: 'https://www.youtube.com/@RenPatterns', handle: '@RenPatterns', color: '#BC8DF7', icon: siYoutube }
+			// { name: 'Webtoon', url: 'https://www.webtoons.com/en/canvas/call-back/list?title_no=921001', handle: 'Call Back', color: '#BC8DF7', icon: siWebtoon }
 		],
 		pricingCategories: [
 			{
@@ -381,7 +381,7 @@
 						</p>
 					</div>
 
-					<!-- Webtoon Project Showcase -->
+					<!-- Webtoon Project Showcase
 					<div class="bg-gradient-to-r from-cyan-500/15 to-blue-500/15 border-2 border-black rounded-2xl p-5 flex flex-col sm:flex-row items-center gap-4 justify-between mt-2 shadow-[3px_3px_0_#000] relative z-10">
 						<div class="text-left">
 							<span class="text-[10px] font-bold text-cyan-400 uppercase tracking-widest bg-cyan-950/50 border border-cyan-800/30 px-2.5 py-0.5 rounded-full inline-block">my webtoon comic~</span>
@@ -397,6 +397,7 @@
 							Read Comic
 						</a>
 					</div>
+					-->
 				</div>
 
 				<!-- Visual Highlights Grid with Washi Tape -->
