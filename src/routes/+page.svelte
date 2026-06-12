@@ -27,30 +27,6 @@
 	let brushColor = $state('#24D8E3'); // Default is Cyan
 	let brushSize = $state(4);
 
-	// Interactive mascot quotes
-	const mascotQuotes = [
-		"Hewoo! Welcome to my sketchbook! :3",
-		"Draw something cute on the doodle board! 🎨",
-		"Check out my commission rates! 🌊",
-		"Sine waves and good vibes only! ✨",
-		"PayPal taxes are mean, sorry about refunds! 😭",
-		"Please be nice and respectful! 💖",
-		"I draw emotes, stickers, and full-body sheets!",
-		"Click 'Art & Pricing' to choose your poison! 🧪",
-		"Let's make something amazing together!"
-	];
-	let mascotQuoteIndex = $state(0);
-	let showMascotBubble = $state(false);
-
-	function triggerMascotQuote() {
-		mascotQuoteIndex = Math.floor(Math.random() * mascotQuotes.length);
-		showMascotBubble = true;
-	}
-
-	function hideMascotBubble() {
-		showMascotBubble = false;
-	}
-
 	function startDrawing(e) {
 		if (!doodleCanvas) return;
 		isDrawing = true;
@@ -307,29 +283,12 @@
 		<!-- Paintbrush Signature Mascot Badge -->
 		<div class="flex items-center gap-4 mb-6 justify-center w-full bg-black/20 p-3 rounded-2xl border border-white/5 relative">
 			<!-- Mascot Custom Avatar with double ring border -->
-			<div 
-				class="relative group shrink-0"
-				onmouseenter={triggerMascotQuote}
-				onmouseleave={hideMascotBubble}
-				role="button"
-				tabindex="0"
-				onkeydown={(e) => { if (e.key === 'Enter' || e.key === ' ') triggerMascotQuote(); }}
-			>
-				<div class="w-18 h-18 rounded-full border-3 border-black overflow-hidden bg-white flex items-center justify-center shadow-[3px_3px_0_#000] transition-all group-hover:scale-105 animate-wiggle cursor-pointer">
+			<div class="relative shrink-0 transition-transform duration-200 hover:scale-105">
+				<div class="w-18 h-18 rounded-full border-3 border-black overflow-hidden bg-white flex items-center justify-center shadow-[3px_3px_0_#000]">
 					<img src="{base}/assets/gallery02_4bfa3f0b.png" alt="Ren Mascot" class="w-16 h-16 object-contain" />
 				</div>
 				<!-- Status Dot -->
 				<div class="absolute bottom-0 right-0 w-5 h-5 bg-[#7EEDB8] border-3 border-black rounded-full shadow-[1px_1px_0_#000]" title="Open for Comms!"></div>
-
-				<!-- Mascot quote bubble -->
-				{#if showMascotBubble}
-					<div 
-						transition:scale={{ duration: 150, start: 0.95 }}
-						class="absolute bottom-22 left-1/2 -translate-x-1/2 z-30 speech-bubble bubble-b px-3.5 py-2.5 text-xs font-bold text-cyan-300 w-44 shadow-[4px_4px_0_#000] text-center"
-					>
-						{mascotQuotes[mascotQuoteIndex]}
-					</div>
-				{/if}
 			</div>
 			
 			<div class="text-left flex-grow">
