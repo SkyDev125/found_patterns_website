@@ -603,7 +603,7 @@
 										onclick={() => calcType = 'half-body'}
 										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcType === 'half-body' ? 'comic-btn-blue' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
-										Half Body <span class="whitespace-nowrap">($30)</span>
+										Half Body <span class="whitespace-nowrap">($40)</span>
 									</button>
 									<button 
 										onclick={() => calcType = 'full-body'}
@@ -627,13 +627,13 @@
 										onclick={() => calcComplexity = 'medium'}
 										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcComplexity === 'medium' ? 'comic-btn-purple' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
-										Medium <span class="whitespace-nowrap">(+$10)</span>
+										Medium <span class="whitespace-nowrap">(+$15)</span>
 									</button>
 									<button 
 										onclick={() => calcComplexity = 'complex'}
 										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcComplexity === 'complex' ? 'comic-btn-purple' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
-										Complex <span class="whitespace-nowrap">(+$20)</span>
+										Complex <span class="whitespace-nowrap">(+$30)</span>
 									</button>
 								</div>
 							</div>
@@ -651,13 +651,13 @@
 										onclick={() => calcBackground = 'simple'}
 										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcBackground === 'simple' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
-										Simple <span class="whitespace-nowrap">(+$10)</span>
+										Simple <span class="whitespace-nowrap">(+$20)</span>
 									</button>
 									<button 
 										onclick={() => calcBackground = 'detailed'}
 										class="comic-btn py-3 px-2 rounded-xl text-sm font-bold border-2 transition-all {calcBackground === 'detailed' ? 'comic-btn-orange' : 'bg-white/5 text-gray-300 hover:bg-white/10'}"
 									>
-										Detailed <span class="whitespace-nowrap">(+$25)</span>
+										Detailed <span class="whitespace-nowrap">(+$40)</span>
 									</button>
 								</div>
 							</div>
