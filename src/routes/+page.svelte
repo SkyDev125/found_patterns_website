@@ -720,20 +720,20 @@
 								{#if calcCategory === 'illustration'}
 									<div class="flex justify-between">
 										<span>Base Price ({calcType.replace('-', ' ')})</span>
-										<span>${calcType === 'head-shot' ? 20 : calcType === 'half-body' ? 30 : 60}</span>
+										<span>${calcType === 'head-shot' ? 20 : calcType === 'half-body' ? 40 : 60}</span>
 									</div>
 									<div class="flex justify-between">
 										<span>Complexity ({calcComplexity})</span>
-										<span>+${calcComplexity === 'simple' ? 0 : calcComplexity === 'medium' ? 10 : 20}</span>
+										<span>+${calcComplexity === 'simple' ? 0 : calcComplexity === 'medium' ? 15 : 30}</span>
 									</div>
 									<div class="flex justify-between">
 										<span>Background ({calcBackground})</span>
-										<span>+${calcBackground === 'flat' ? 0 : calcBackground === 'simple' ? 10 : 25}</span>
+										<span>+${calcBackground === 'flat' ? 0 : calcBackground === 'simple' ? 20 : 40}</span>
 									</div>
 									{#if calcCharacters > 1}
 										<div class="flex justify-between text-[#d73d48]">
 											<span>Extra Characters (x{calcCharacters - 1})</span>
-											<span>+${((calcType === 'head-shot' ? 20 : calcType === 'half-body' ? 30 : 60) + (calcComplexity === 'simple' ? 0 : calcComplexity === 'medium' ? 10 : 20)) * 0.5 * (calcCharacters - 1)}</span>
+											<span>+${((calcType === 'head-shot' ? 20 : calcType === 'half-body' ? 40 : 60) + (calcComplexity === 'simple' ? 0 : calcComplexity === 'medium' ? 15 : 30)) * 0.5 * (calcCharacters - 1)}</span>
 										</div>
 									{/if}
 								{:else if calcCategory === 'stickers'}
