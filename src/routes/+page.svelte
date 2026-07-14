@@ -223,16 +223,16 @@
 		
 		// Illustration calculation
 		let basePrice = 20;
-		if (calcType === 'half-body') basePrice = 30;
+		if (calcType === 'half-body') basePrice = 40;
 		if (calcType === 'full-body') basePrice = 60;
 
 		let complexityPrice = 0;
-		if (calcComplexity === 'medium') complexityPrice = 10;
-		if (calcComplexity === 'complex') complexityPrice = 20;
+		if (calcComplexity === 'medium') complexityPrice = 15;
+		if (calcComplexity === 'complex') complexityPrice = 30;
 
 		let backgroundPrice = 0;
-		if (calcBackground === 'simple') backgroundPrice = 10;
-		if (calcBackground === 'detailed') backgroundPrice = 25;
+		if (calcBackground === 'simple') backgroundPrice = 20;
+		if (calcBackground === 'detailed') backgroundPrice = 40;
 
 		const singleCharacterPrice = basePrice + complexityPrice;
 		const extraCharactersPrice = (calcCharacters - 1) * (singleCharacterPrice * 0.5);
